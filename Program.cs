@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using TheVoid.Data;
+using TheVoid.Models;
+
 namespace TheVoid
 {
     public class Program
@@ -6,7 +11,14 @@ namespace TheVoid
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = builder.Configuration.GetConnectionString("default");
             // Add services to the container.
+            builder.Services.AddDbContext<VoidDbContext>
+                (
+                    options => options.UseInMemoryDatabase("VoidTestDb")
+                );
+            builder.Services.AddIdentity<VoidUser, IdentityRole>()
+                .AddEntityFrameworkStores<VoidDbContext>().AddDefaultTokenProviders();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
