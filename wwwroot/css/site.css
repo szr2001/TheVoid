@@ -12,6 +12,20 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+/* # is  for Id's and . is for classes*/
+#main-body-void {
+    background-color: black;
+    background-image: url(../Assets/MainVoid.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 html {
   position: relative;
   min-height: 100%;
