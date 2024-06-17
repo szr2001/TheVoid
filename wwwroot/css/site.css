@@ -12,25 +12,38 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-/* # is  for Id's and . is for classes*/
 #main-body-void {
     background-color: black;
     background-image: url(../Assets/MainVoid.gif);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    width: 100vw;
-    min-height: 100vh;
+    min-height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; 
+    overflow: hidden; 
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+#main-title {
+    position: absolute; 
+    top: 10px; 
+    margin: -15px;
+    font-size: 50px;
+    font-family: 'Hotel De Paris Xe';
 }
 
-body {
-  margin-bottom: 60px;
+#main-description {
+    position: absolute; 
+    bottom: 0px;
+    font-size: 10px;
+    font-family: 'Cascadia Code';
+}
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
