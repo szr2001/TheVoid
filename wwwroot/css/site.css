@@ -26,10 +26,6 @@ html {
     overflow: auto; 
 }
 
-.min-width-100vw-64px {
-    min-width: calc(100vw - 64px);
-}
-
 .width-30{
     width:30%;
 }

@@ -9,7 +9,7 @@
     <div class="card p-3 width-30 bg-dark border-white">
         <h2 class="text-center text-info text-white"> Login</h2>
         <form asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly"></div>
+            <div asp-validation-summary="ModelOnly" class="text-white"></div>
             <div class="mb-1">
                 <label asp-for="Email" class="control-label text-white"></label>
                 <input asp-for="Email" class="form-control" />
