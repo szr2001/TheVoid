@@ -12,7 +12,7 @@
                 <div asp-validation-summary="ModelOnly"></div>
                 <div class="mb-1">
                     <label asp-for="Email" class="control-label text-white"></label>
-                    <input asp-for="Email" class="form-control"/>
+                    <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-1">
@@ -36,3 +36,9 @@
             </form>
         </div>
 </div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

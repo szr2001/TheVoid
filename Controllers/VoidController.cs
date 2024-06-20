@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TheVoid.Data;
 
 namespace TheVoid.Controllers
 {
+    [Authorize]
     public class VoidController : Controller
     {
         private VoidDbContext Database;
@@ -17,6 +19,11 @@ namespace TheVoid.Controllers
         }
 
         public IActionResult ReadFromVoid()
+        {
+            return View();
+        }
+
+        public IActionResult VoidInteractions()
         {
             return View();
         }

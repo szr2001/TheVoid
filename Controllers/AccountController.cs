@@ -1,14 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TheVoid.Data;
+using TheVoid.Models;
+using TheVoid.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TheVoid.Controllers
 {
     public class AccountController : Controller
     {
-        private VoidDbContext Database;
-        public AccountController(VoidDbContext voidDb) 
+        private readonly SignInManager<VoidUser> signInManager;
+        private readonly UserManager<VoidUser> userManager;
+        public AccountController(SignInManager<VoidUser> signinmanager, UserManager<VoidUser> usermanager)
         {
-            Database = voidDb;
+            signInManager = signinmanager;
+            userManager = usermanager;
         }
 
         public IActionResult Login()
@@ -16,14 +23,65 @@ namespace TheVoid.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM logindata)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(logindata.Email!,logindata.Password!, logindata.RememberMe, false);
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("VoidInteractions", "Void");
+                }
+                else
+                {
+                    Console.WriteLine("Wrong Username or Password");
+                    ModelState.AddModelError("", "Wrong Username or Password");
+                    return View(logindata);
+                }
+            }
+            return View(logindata);
+        }
+
         public IActionResult Register()
         {
             return View();
         }
 
-        public IActionResult Logout()
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterVM registerData)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                VoidUser user = new()
+                {
+                    Name = registerData.Email,
+                    UserName = registerData.Email,
+                    Email = registerData.Email,
+                };
+
+                var result = await userManager.CreateAsync(user,registerData.Password!);
+
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user,false);
+                    return RedirectToAction("VoidInteractions", "Void");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    Console.WriteLine(error.Description);
+                    ModelState.AddModelError("",error.Description);
+                }
+            }
+            return View(registerData);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            
+            return RedirectToAction(nameof(Login));
         }
     }
 }
