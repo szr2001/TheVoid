@@ -23,7 +23,15 @@ html {
     justify-content: center;
     align-items: center;
     position: relative; 
-    overflow: hidden; 
+    overflow: auto; 
+}
+
+.min-width-100vw-64px {
+    min-width: calc(100vw - 64px);
+}
+
+.width-30{
+    width:30%;
 }
 
 #main-title {
