@@ -32,12 +32,13 @@
     </header> *@
     <div id="main-body-void">
         <h1 id="main-title" class="text-white"><b class="text-center">The Void</b></h1>
-        <div class="container-fluid">
+        <div class="container">
             <main role="main">
                 @RenderBody()
+                <partial name="_AccountPartial" />
             </main>
         </div>
-        <h1 id="main-description" class="text-white">Throw your problems in the void</h1>
+        <h1 id="main-description" class="text-white fs-2 fw-bold ">Throw your problems in the void</h1>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

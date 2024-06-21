@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<VoidUser> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="card bg-dark border-white">
+            <a class="nav-link text-white text-center fw-bolder" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+        </div>
+    </div>
+}

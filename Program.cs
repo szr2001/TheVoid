@@ -17,7 +17,14 @@ namespace TheVoid
                 (
                     options => options.UseInMemoryDatabase("VoidTestDb")
                 );
-            builder.Services.AddIdentity<VoidUser, IdentityRole>()
+            builder.Services.AddIdentity<VoidUser, IdentityRole>(options => 
+            {
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+            })
                 .AddEntityFrameworkStores<VoidDbContext>().AddDefaultTokenProviders();
             builder.Services.AddControllersWithViews();
 

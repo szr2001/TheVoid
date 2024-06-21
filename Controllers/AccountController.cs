@@ -20,6 +20,10 @@ namespace TheVoid.Controllers
 
         public IActionResult Login()
         {
+            if (signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("VoidInteractions", "Void");
+            }
             return View();
         }
 
