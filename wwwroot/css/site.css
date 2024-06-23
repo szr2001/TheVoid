@@ -26,10 +26,6 @@ html {
     overflow: auto; 
 }
 
-.width-30{
-    width:30%;
-}
-
 #main-title {
     position: absolute; 
     top: 10px; 

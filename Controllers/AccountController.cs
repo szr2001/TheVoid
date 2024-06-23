@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using TheVoid.Data;
 using TheVoid.Models;
 using TheVoid.ViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TheVoid.Controllers
 {

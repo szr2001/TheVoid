@@ -4,3 +4,30 @@
 @{
     ViewData["Title"] = "Write To Void";
 }
+
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card p-3 w-50 bg-dark border-white">
+        <h5 class="text-center text-info text-warning"> Messages Are Anonymous</h5>
+        <form asp-action="WriteToVoid" asp-controller="Void" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-white"></div>
+            <div class="mb-1">
+                <label class="text-center text-white">Throw your problem in <b>The Void</b>, and someone might read it.</label>
+                <textarea asp-for="VoidMessage" style="height:150px " class="form-control"></textarea>
+                <span asp-validation-for="VoidMessage" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div>
+                    <input type="submit" value="WriteToVoid" class="btn btn-primary btn-sm float-end" />
+                    <a asp-action="VoidInteractions" asp-controller="Void" class="me-2 btn btn-secondary btn-sm float-end">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

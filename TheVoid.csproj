@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Void\NoMessagesFound.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ElementersArtWork1.png" />
   </ItemGroup>
 
@@ -19,6 +23,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Void\NoMessagesFound.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Void\NoMessagesFound.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Void\NoMessagesFound.cshtml" />
   </ItemGroup>
 
 </Project>

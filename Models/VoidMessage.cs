@@ -4,6 +4,7 @@ namespace TheVoid.Models
 {
     public class VoidMessage
     {
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage ="There must be a message")]
