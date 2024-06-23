@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Void\NoMessagesFound.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="ElementersArtWork1.png" />
   </ItemGroup>
 
@@ -31,10 +27,6 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Void\NoMessagesFound.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Void\NoMessagesFound.cshtml" />
   </ItemGroup>
 
 </Project>

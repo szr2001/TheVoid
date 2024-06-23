@@ -67,14 +67,23 @@ namespace TheVoid.Controllers
             return RedirectToAction(nameof(VoidInteractions));
         }
 
-        public IActionResult ReadFromVoid()
+        public async Task<IActionResult> ReadFromVoid()
         {
-            return View();
-        }
+            if (_voidDb.VoidMessages.Count() == 0)
+            {
+                return RedirectToAction(nameof(NoMessagesFound));
+            }
 
-        public IActionResult RetrieveFromVoid()
-        {
-            VoidMessage voidMessage = new VoidMessage();
+            VoidMessage message = _voidDb.VoidMessages.First();
+
+            _voidDb.VoidMessages.Remove(message);
+
+            await _voidDb.SaveChangesAsync();
+
+            VoidMessageVM voidMessage = new()
+            {
+                VoidMessage = message.Content
+            };
             return View(voidMessage);
         }
 
