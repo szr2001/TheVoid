@@ -5,7 +5,7 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex expand justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <h2 class="text-center text-info text-white"> Login</h2>
         <form asp-action="Login" method="post">
@@ -25,7 +25,7 @@
                     <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a => a.RememberMe)
                 </label>
             </div>
-            <div class="row">
+            <div class="row p-1">
                 <div class="col-8">
                     <a asp-action="Register" class="text-decoration-none float-start mt-2"> Don't have an account?</a>
                 </div>
@@ -38,6 +38,22 @@
 </div>
 
 @section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () 
+        {
+            var form = document.querySelector('form');
+            form.addEventListener('submit', function (event) 
+            {
+                event.preventDefault(); // Prevent form submission to see the animation
+
+                var card = document.querySelector('.card');
+                card.classList.add('shrink');
+
+                // Optionally, you can submit the form after the animation completes
+                form.submit();
+            });
+        });
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

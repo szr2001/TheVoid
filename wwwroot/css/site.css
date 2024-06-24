@@ -26,6 +26,42 @@ html {
     overflow: auto; 
 }
 
+@keyframes shrink {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+@keyframes rotate {
+    from {
+        transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
+    }
+}
+
+.rotateLeft{
+    animation: rotate 0.45s forwards;
+}
+
+.rotateRight {
+    animation: rotate 0.45s reverse;
+}
+
+.shrink {
+    animation: shrink 0.45s forwards;
+}
+
+.expand {
+    animation: shrink 0.45s reverse;
+}
+
 #main-title {
     position: absolute; 
     top: 10px; 

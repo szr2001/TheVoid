@@ -6,7 +6,7 @@
 }
 
 
-<div class="d-flex justify-content-center align-items-center">
+<div class="expand d-flex justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <h5 class="text-center text-info text-warning"> Messages Are Anonymous</h5>
         <form asp-action="WriteToVoid" asp-controller="Void" method="post">
@@ -27,6 +27,27 @@
 </div>
 
 @section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function ()
+        {
+            var form = document.querySelector('form');
+            form.addEventListener('submit', function (event) 
+            {
+                event.preventDefault(); // Prevent form submission to see the animation
+
+                var main = document.querySelector('.expand');
+                var card = document.querySelector('.card');
+                card.classList.add('shrink');
+                main.classList.remove('expand');
+                main.classList.add('rotateLeft');
+
+                setTimeout(function () 
+                {
+                    form.submit();
+                }, 500); 
+            });
+        });
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

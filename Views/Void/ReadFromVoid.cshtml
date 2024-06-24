@@ -5,12 +5,12 @@
     ViewData["Title"] = "Read From Void";
 }
 
-<div class="d-flex justify-content-center align-items-center">
-    <div class="card p-3 w-50 bg-dark border-white">
+<div class="d-flex expand justify-content-center align-items-center">
+    <div class="card rotateRight p-1 w-85 bg-dark border-white">
         <h4 class="text-center text-info text-white"><b>The void Wishpers:</b></h4>
-        <h6 class="text-center text-info text-white"><i>" @Model.VoidMessage "</i></h6>
+        <h8 class="text-center text-info text-white"><i>" @Model.VoidMessage "</i></h8>
         <h6 class="text-end text-info text-white">"Unknown User"</h6>
-        <div class="row">
+        <div class="row p-1">
             <div>
                 <a asp-action="VoidInteractions" asp-controller="Void" class="me-2 btn btn-secondary btn-sm float-end">Back</a>
             </div>
