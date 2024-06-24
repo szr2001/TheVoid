@@ -46,6 +46,10 @@ namespace TheVoid.Controllers
 
         public IActionResult Register()
         {
+            if (signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("VoidInteractions", "Void");
+            }
             return View();
         }
 
@@ -59,13 +63,17 @@ namespace TheVoid.Controllers
                     Name = registerData.Email,
                     UserName = registerData.Email,
                     Email = registerData.Email,
+                    LastReadFromVoid = DateTime.MinValue,
+                    LastWroteToVoid = DateTime.MinValue,
+                    AddedVoidMessages = 0,
+                    RetrivedVoidMessages = 0,
                 };
 
-                var result = await userManager.CreateAsync(user,registerData.Password!);
+                var result = await userManager.CreateAsync(user, registerData.Password!);
 
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user,false);
+                    await signInManager.SignInAsync(user, false);
                     return RedirectToAction("VoidInteractions", "Void");
                 }
 

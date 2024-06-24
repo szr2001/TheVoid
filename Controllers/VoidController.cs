@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using TheVoid.Data;
 using TheVoid.Models;
@@ -12,24 +11,51 @@ namespace TheVoid.Controllers
     [Authorize]
     public class VoidController : Controller
     {
-        private VoidDbContext _voidDb;
-        private UserManager<VoidUser> _voidUserManager;
-        public VoidController(VoidDbContext voidDb, UserManager<VoidUser> usermanager)
+        private readonly VoidDbContext _voidDb;
+        private readonly UserManager<VoidUser> _voidUserManager;
+        private readonly IConfiguration _configuration;
+
+        private TimeSpan WriteGlobalDelay;
+        private TimeSpan ReadGlobalDelay;
+        public VoidController(VoidDbContext voidDb, UserManager<VoidUser> usermanager, IConfiguration configuration)
         {
             _voidDb = voidDb;
             _voidUserManager = usermanager;
+            _configuration = configuration;
+
+            WriteGlobalDelay = TimeSpan.FromMinutes(_configuration.GetValue<int>("WriteMinutesInterval"));
+            ReadGlobalDelay = TimeSpan.FromMinutes(_configuration.GetValue<int>("ReadMinutesInterval"));
         }
 
-        public IActionResult WriteToVoid()
+        public async Task<IActionResult> WriteToVoid()
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            if (userId == null)
+            {
+                ModelState.AddModelError("", "UserID not found");
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if (userData == null)
+            {
+                ModelState.AddModelError("", "UserData not found");
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
+            if ((DateTime.Now - userData.LastWroteToVoid) < WriteGlobalDelay)
+            {
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> WriteToVoid(VoidMessageVM message)
         {
-            Console.WriteLine($"Message {User.Identity!.Name} send  {message.VoidMessage}");
-
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
             if(userId == null)
@@ -47,10 +73,8 @@ namespace TheVoid.Controllers
             }
 
             userData.LastWroteToVoid = DateTime.Now;
+            userData.AddedVoidMessages++;
 
-            Console.WriteLine($"userId {userId}, Userdata Id {userData.Id}");
-            Console.WriteLine($"Last wrote to void {userData.LastWroteToVoid}");
-            // Save changes to database
             await _voidUserManager.UpdateAsync(userData);
 
             _voidDb.VoidMessages.Add
@@ -69,7 +93,27 @@ namespace TheVoid.Controllers
 
         public async Task<IActionResult> ReadFromVoid()
         {
-            if (_voidDb.VoidMessages.Count() == 0)
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            if (userId == null)
+            {
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if (userData == null)
+            {
+                ModelState.AddModelError("", "UserData not found");
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
+            if ((DateTime.Now - userData.LastReadFromVoid) < ReadGlobalDelay)
+            {
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
+            if (!_voidDb.VoidMessages.Any())
             {
                 return RedirectToAction(nameof(NoMessagesFound));
             }
@@ -80,10 +124,16 @@ namespace TheVoid.Controllers
 
             await _voidDb.SaveChangesAsync();
 
+            userData.LastReadFromVoid = DateTime.Now;
+            userData.RetrivedVoidMessages++;
+
+            await _voidUserManager.UpdateAsync(userData);
+
             VoidMessageVM voidMessage = new()
             {
                 VoidMessage = message.Content
             };
+            
             return View(voidMessage);
         }
 
@@ -92,9 +142,52 @@ namespace TheVoid.Controllers
             return View();
         }
 
-        public IActionResult VoidInteractions()
+        public async Task<IActionResult> VoidInteractions()
         {
-            return View();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            if (userId == null)
+            {
+                ModelState.AddModelError("", "UserID not found");
+                return RedirectToAction("Logout", "Account");
+            }
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if (userData == null)
+            {
+                ModelState.AddModelError("", "UserData not found");
+                return RedirectToAction("Logout", "Account");
+            }
+            
+            DateTime UserLastWrite = userData.LastWroteToVoid;
+            DateTime UserLastRead = userData.LastReadFromVoid;
+
+            TimeSpan writeDelay = CalculateRemainingTime(UserLastWrite, WriteGlobalDelay);
+            TimeSpan readDelay = CalculateRemainingTime(UserLastRead, ReadGlobalDelay);
+
+            int totalRead = userData.RetrivedVoidMessages;
+            int totalWrite = userData.AddedVoidMessages;
+            bool canWrite = writeDelay == TimeSpan.Zero ? true : false;
+            bool canRead = readDelay == TimeSpan.Zero ? true : false;
+
+            VoidInteractionsVM voidInteractionsVM = new()
+            {
+                CanWrite = canWrite,
+                CanRead = canRead,
+                TotalMessagesRead = totalRead,
+                TotalMessagesWrite = totalWrite,
+                WriteDelay = writeDelay,
+                ReadDelay = readDelay
+            };
+
+            return View(voidInteractionsVM);
+        }
+
+        private TimeSpan CalculateRemainingTime(DateTime lastInterval, TimeSpan delay)
+        {
+            TimeSpan remainingTime = delay - (DateTime.Now - lastInterval);
+            return remainingTime > TimeSpan.Zero ? remainingTime : TimeSpan.Zero;
         }
     }
 }
