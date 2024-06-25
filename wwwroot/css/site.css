@@ -14,16 +14,16 @@ html {
 
 #main-body-void {
     background-color: black;
-    background-image: url(../Assets/MainVoid.gif);
+    background-image: url(../Assets/Images/MainVoid.gif);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    min-height: 100vh; 
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; 
-    overflow: auto; 
+    position: relative;
+    overflow: auto;
 }
 
 @keyframes shrink {
@@ -36,6 +36,7 @@ html {
         opacity: 0;
     }
 }
+
 @keyframes rotate {
     from {
         transform: rotateZ(0deg);

@@ -12,7 +12,7 @@
             {
                 <form class="btn-secondary w-50 rounded-3 m-1 btn-outline-black text-center" asp-area="" asp-controller="Void" method="get" asp-action="WriteToVoid">
                     <button type="submit" class="text-decoration-none btn btn-link p-0 w-100 h-100 text-dark text-center fw-bolder fs-1">
-                        <img class="card-img-top" src="../Assets/box.png" />
+                        <img class="card-img-top" src="../Assets/Images/box.png" />
                         <h1 class="align-text-bottom">Whisper Into The Void</h1>
                     </button>
                 </form>
@@ -20,7 +20,7 @@
             else
             {
                 <div class="w-50 rounded-3 m-1 btn-outline-black text-center">
-                    <img class="card-img-top" src="../Assets/box.png" />
+                    <img class="card-img-top" src="../Assets/Images/box.png" />
                     <h6 class="align-text-bottom text-info text-white"><i><b>The Void</b> is not listetning for:</i></h6>
                     <h6 class="align-text-bottom text-info text-white"><i> @Model.WriteDelay.ToString(@"hh\:mm\:ss")</i></h6>
                 </div>
@@ -29,7 +29,7 @@
             {
                 <form class="btn-secondary w-50 rounded-3 m-1 btn-outline-black text-center" asp-area="" asp-controller="Void" method="get" asp-action="ReadFromVoid">
                     <button type="submit" class="text-decoration-none btn btn-link p-0 w-100 h-100 text-dark text-center fw-bolder fs-1">
-                        <img class="card-img-top" src="../Assets/email.png" />
+                        <img class="card-img-top" src="../Assets/Images/email.png" />
                         <h1 class="lign-text-bottom">Listen To The Void</h1>
                     </button>
                 </form>
@@ -37,7 +37,7 @@
             else
             {
                 <div class="w-50 rounded-3 m-1 btn-outline-black text-center">
-                    <img class="card-img-top" src="../Assets/email.png" />
+                    <img class="card-img-top" src="../Assets/Images/email.png" />
                     <h6 class="align-text-bottom text-info text-white"><i><b>The Void</b> is not wishpering for:</i></h6>
                     <h6 class="align-text-bottom text-info text-white"><i> @Model.ReadDelay.ToString(@"hh\:mm\:ss")</i></h6>
                 </div>

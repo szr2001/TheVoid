@@ -29,4 +29,13 @@
     <_ContentIncludedByDefault Remove="Views\Void\NoMessagesFound.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\Assets\Sounds\backgroundNoise.mp3">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Assets\Sounds\voidInteraction.mp3">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
