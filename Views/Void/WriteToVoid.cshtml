@@ -6,6 +6,7 @@
 }
 
 
+<audio id="interact-audio" src="~/Assets/Sounds/voidInteraction.mp3" preload="auto"></audio>
 <div class="expandFast d-flex justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <h5 class="text-center text-info text-warning"> Messages Are Anonymous</h5>
@@ -33,6 +34,8 @@
             var form = document.querySelector('form');
             form.addEventListener('submit', function (event) 
             {
+                var sound = document.getElementById("interact-audio");
+                sound.play();
 
                 event.preventDefault(); // Prevent form submission to see the animation
 
