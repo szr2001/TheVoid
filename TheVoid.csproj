@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Assets\Images\TheVoid1.png" />
+    <Content Remove="wwwroot\Assets\Images\TheVoid2.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ElementersArtWork1.png" />
   </ItemGroup>
 
@@ -41,6 +46,11 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Void\WelcomeToVoid.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Assets\Images\TheVoid1.png" />
+    <None Include="wwwroot\Assets\Images\TheVoid2.png" />
   </ItemGroup>
 
 </Project>
