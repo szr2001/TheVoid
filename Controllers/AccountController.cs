@@ -24,6 +24,11 @@ namespace TheVoid.Controllers
             return View();
         }
 
+        public IActionResult WelcomeToVoid()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM logindata)
         {

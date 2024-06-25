@@ -5,15 +5,15 @@
     ViewData["Title"] = "Void Interactions";
 }
 
-<div class="expand d-flex justify-content-center align-items-center">
+<div class="expandFast d-flex justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <div class="d-flex">
-            @if(Model.CanWrite)
+            @if (Model.CanWrite)
             {
                 <form class="btn-secondary w-50 rounded-3 m-1 btn-outline-black text-center" asp-area="" asp-controller="Void" method="get" asp-action="WriteToVoid">
                     <button type="submit" class="text-decoration-none btn btn-link p-0 w-100 h-100 text-dark text-center fw-bolder fs-1">
                         <img class="card-img-top" src="../Assets/Images/box.png" />
-                        <h1 class="align-text-bottom">Whisper Into The Void</h1>
+                        <h3 class="align-text-bottom">Whisper To The Void</h3>
                     </button>
                 </form>
             }
@@ -21,8 +21,10 @@
             {
                 <div class="w-50 rounded-3 m-1 btn-outline-black text-center">
                     <img class="card-img-top" src="../Assets/Images/box.png" />
-                    <h6 class="align-text-bottom text-info text-white"><i><b>The Void</b> is not listetning for:</i></h6>
-                    <h6 class="align-text-bottom text-info text-white"><i> @Model.WriteDelay.ToString(@"hh\:mm\:ss")</i></h6>
+                    <h6 class="align-text-bottom text-info text-white"><i><b>The Void</b> is not listening for:</i></h6>
+                    <h6 class="align-text-bottom text-info text-white">
+                        <i id="write-timer"> @Model.WriteDelay.ToString(@"hh\:mm\:ss")</i>
+                    </h6>
                 </div>
             }
             @if (Model.CanRead)
@@ -30,7 +32,7 @@
                 <form class="btn-secondary w-50 rounded-3 m-1 btn-outline-black text-center" asp-area="" asp-controller="Void" method="get" asp-action="ReadFromVoid">
                     <button type="submit" class="text-decoration-none btn btn-link p-0 w-100 h-100 text-dark text-center fw-bolder fs-1">
                         <img class="card-img-top" src="../Assets/Images/email.png" />
-                        <h1 class="lign-text-bottom">Listen To The Void</h1>
+                        <h3 class="align-text-bottom">Listen To The Void</h3>
                     </button>
                 </form>
             }
@@ -38,13 +40,15 @@
             {
                 <div class="w-50 rounded-3 m-1 btn-outline-black text-center">
                     <img class="card-img-top" src="../Assets/Images/email.png" />
-                    <h6 class="align-text-bottom text-info text-white"><i><b>The Void</b> is not wishpering for:</i></h6>
-                    <h6 class="align-text-bottom text-info text-white"><i> @Model.ReadDelay.ToString(@"hh\:mm\:ss")</i></h6>
+                    <h6 class="align-text-bottom text-info text-white"><i><b>The Void</b> is not whispering for:</i></h6>
+                    <h6 class="align-text-bottom text-info text-white">
+                        <i id="read-timer">@Model.ReadDelay.ToString(@"hh\:mm\:ss")</i>
+                    </h6>
                 </div>
             }
         </div>
     </div>
-</div>  
+</div>
 <div class="expand d-flex justify-content-center">
     <div class="card p-1 w-25 bg-dark border-white">
         <div class="d-flex">
@@ -53,3 +57,47 @@
         </div>
     </div>
 </div>
+
+<script>
+    function startTimer(duration, display, modelProperty) {
+        var timer = duration, hours, minutes, seconds;
+        var interval = setInterval(function () {
+            hours = parseInt(timer / 3600, 10);
+            minutes = parseInt((timer % 3600) / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = hours + ":" + minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(interval);
+                // Update the model property to true
+                if (modelProperty === "CanWrite") {
+                    location.reload();
+                } else if (modelProperty === "CanRead") {
+                    location.reload();
+                }
+                // Refresh the page or update the UI as necessary
+                location.reload();
+            }
+        }, 1000);
+    }
+
+    window.onload = function () {
+        var writeTimerElement = document.getElementById('write-timer');
+        var readTimerElement = document.getElementById('read-timer');
+
+        if (writeTimerElement) {
+            var writeDelay = @Model.WriteDelay.TotalSeconds;
+            startTimer(writeDelay, writeTimerElement, "CanWrite");
+        }
+
+        if (readTimerElement) {
+            var readDelay = @Model.ReadDelay.TotalSeconds;
+            startTimer(readDelay, readTimerElement, "CanRead");
+        }
+    };
+</script>

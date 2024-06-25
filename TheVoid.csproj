@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Void\NoMessagesFound.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Void\WelcomeToVoid.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,10 @@
     <Content Update="wwwroot\Assets\Sounds\voidInteraction.mp3">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Void\WelcomeToVoid.cshtml" />
   </ItemGroup>
 
 </Project>

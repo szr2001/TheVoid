@@ -47,20 +47,37 @@ html {
     }
 }
 
-.rotateLeft{
-    animation: rotate 0.45s forwards;
+.rotateLeftSlow {
+    animation: rotate 1.5s forwards;
 }
 
-.rotateRight {
-    animation: rotate 0.45s reverse;
+.rotateRightSlow {
+    animation: rotate 1.5s reverse;
 }
 
-.shrink {
-    animation: shrink 0.45s forwards;
+.shrinkSlow {
+    animation: shrink 1.5s forwards;
 }
 
-.expand {
-    animation: shrink 0.45s reverse;
+.expandSlow {
+    animation: shrink 1.5s reverse;
+}
+
+
+.rotateLeftFast {
+    animation: rotate 0.4s forwards;
+}
+
+.rotateRightFast {
+    animation: rotate 0.4s reverse;
+}
+
+.shrinkFast{
+    animation: shrink 0.4s forwards;
+}
+
+.expandFast {
+    animation: shrink 0.4s reverse;
 }
 
 #main-title {

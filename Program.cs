@@ -47,7 +47,7 @@ namespace TheVoid
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Account}/{action=Login}/{id?}");
+                pattern: "{controller=Account}/{action=WelcomeToVoid}/{id?}");
 
             app.Run();
         }

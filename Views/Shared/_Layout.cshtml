@@ -32,19 +32,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         console.log("START");
         var sound = document.getElementById("background-audio");
-        if (sound != null) {
-            console.log("Audio element found:");
-            if (sound.paused) {
-                sound.play()
-                    .then(() => console.log("Audio started playing"))
-                    .catch((error) => console.log("Error playing audio:",error));
-            }
-            else {
-                console.log("Audio is already playing");
-            }
-        }
-        else {
-            console.log("Audio element not found");
-        }
+        sound.play();
     });
 </script>

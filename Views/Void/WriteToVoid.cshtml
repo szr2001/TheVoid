@@ -6,7 +6,7 @@
 }
 
 
-<div class="expand d-flex justify-content-center align-items-center">
+<div class="expandFast d-flex justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <h5 class="text-center text-info text-warning"> Messages Are Anonymous</h5>
         <form asp-action="WriteToVoid" asp-controller="Void" method="post">
@@ -36,16 +36,16 @@
 
                 event.preventDefault(); // Prevent form submission to see the animation
 
-                var main = document.querySelector('.expand');
+                var main = document.querySelector('.expandFast');
                 var card = document.querySelector('.card');
-                card.classList.add('shrink');
-                main.classList.remove('expand');
-                main.classList.add('rotateLeft');
+                card.classList.add('shrinkSlow');
+                main.classList.remove('expandFast');
+                main.classList.add('rotateLeftSlow');
 
                 setTimeout(function () 
                 {
                     form.submit();
-                }, 500); 
+                }, 1500); 
             });
         });
     </script>

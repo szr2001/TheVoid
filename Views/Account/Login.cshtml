@@ -5,7 +5,7 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="d-flex expand justify-content-center align-items-center">
+<div class="d-flex expandFast justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <h2 class="text-center text-info text-white"> Login</h2>
         <form asp-action="Login" method="post">
@@ -47,10 +47,12 @@
                 event.preventDefault(); // Prevent form submission to see the animation
 
                 var card = document.querySelector('.card');
-                card.classList.add('shrink');
+                card.classList.add('shrinkFast');
 
                 // Optionally, you can submit the form after the animation completes
-                form.submit();
+                setTimeout(function () {
+                    form.submit();
+                }, 400);
             });
         });
     </script>
