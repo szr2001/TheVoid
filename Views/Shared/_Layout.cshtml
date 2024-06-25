@@ -10,6 +10,7 @@
 </head>
 <body>
     <div id="main-body-void">
+        <audio id="background-audio" src="~/Assets/Sounds/backgroundNoise.mp3" loop="loop" preload="auto"></audio>
         <h1 id="main-title" class="text-white"><b class="text-center">The Void</b></h1>
         <div class="container">
             <main role="main">
@@ -24,17 +25,26 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <audio id="backgroundAudio" src="~/Assets/Sounds/backgroundNoise.mp3" loop="loop" autoplay="autoplay" preload="auto"></audio>
 </body>
 
 </html>
-
-@section Scripts {
-    <script>
-        var sound = document.getElementById("backgroundAudio");
-        sound.play();
-    </script>
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("START");
+        var sound = document.getElementById("background-audio");
+        if (sound != null) {
+            console.log("Audio element found:");
+            if (sound.paused) {
+                sound.play()
+                    .then(() => console.log("Audio started playing"))
+                    .catch((error) => console.log("Error playing audio:",error));
+            }
+            else {
+                console.log("Audio is already playing");
+            }
+        }
+        else {
+            console.log("Audio element not found");
+        }
+    });
+</script>
