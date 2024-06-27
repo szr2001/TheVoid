@@ -72,6 +72,11 @@ namespace TheVoid.Controllers
                 return View(message);
             }
 
+            if ((DateTime.Now - userData.LastWroteToVoid) < WriteGlobalDelay)
+            {
+                return RedirectToAction(nameof(VoidInteractions));
+            }
+
             userData.LastWroteToVoid = DateTime.Now;
             userData.AddedVoidMessages++;
 

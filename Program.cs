@@ -16,16 +16,11 @@ namespace TheVoid
             builder.Services.AddDbContext<VoidDbContext>
                 (
                     options => options.UseInMemoryDatabase("VoidTestDb")
+                    //options => options.UseSqlServer(connectionString)
                 );
-            builder.Services.AddIdentity<VoidUser, IdentityRole>(options => 
-            {
-                options.Password.RequiredUniqueChars = 0;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 1;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-            })
-                .AddEntityFrameworkStores<VoidDbContext>().AddDefaultTokenProviders();
+            builder.Services.AddIdentity<VoidUser, IdentityRole>()
+                .AddEntityFrameworkStores<VoidDbContext>()
+                .AddDefaultTokenProviders();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
