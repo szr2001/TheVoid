@@ -29,6 +29,11 @@ namespace TheVoid.Controllers
             return View();
         }
 
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM logindata)
         {
@@ -70,8 +75,12 @@ namespace TheVoid.Controllers
                     Email = registerData.Email,
                     LastReadFromVoid = DateTime.MinValue,
                     LastWroteToVoid = DateTime.MinValue,
+                    LastPremiumPurchase = DateTime.MinValue,
                     AddedVoidMessages = 0,
                     RetrivedVoidMessages = 0,
+                    Level = 1,
+                    Xp = 0,
+                    Banned = false
                 };
 
                 var result = await userManager.CreateAsync(user, registerData.Password!);

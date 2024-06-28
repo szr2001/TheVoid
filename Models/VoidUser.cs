@@ -11,7 +11,11 @@ namespace TheVoid.Models
         public string? Name { get; set; }
         public DateTime LastWroteToVoid { get; set; }
         public DateTime LastReadFromVoid { get; set; }
+        public DateTime LastPremiumPurchase { get; set; }
         public int RetrivedVoidMessages { get; set; }
         public int AddedVoidMessages { get; set; }
+        public int Xp { get; set; }
+        public int Level { get; set; }
+        public bool Banned { get; set; }
     }
 }

@@ -1,0 +1,16 @@
+﻿@using TheVoid.ViewModels
+@model AddsVM
+
+@{
+    ViewData["Title"] = "Adds";
+}
+<div class="d-flex expandFast justify-content-center align-items-center">
+    <div class="card p-3 w-50 bg-dark border-white">
+        <h5 class="text-center text-info text-white">Add</h5>
+            <div class="row">
+                <div>
+                    <a asp-action="ReadFromVoid" asp-controller="Void" class="me-2 btn btn-secondary btn-sm float-end">Skip</a>
+                </div>
+            </div>
+    </div>
+</div>

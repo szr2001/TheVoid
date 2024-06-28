@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TheVoid.Data;
+using TheVoid.Interfaces;
 using TheVoid.Models;
 
 namespace TheVoid
@@ -18,6 +20,10 @@ namespace TheVoid
                     options => options.UseInMemoryDatabase("VoidTestDb")
                     //options => options.UseSqlServer(connectionString)
                 );
+
+            AddsenseAdds adds = new(builder.Configuration.GetValue<int>("AddChance"));
+            builder.Services.AddScoped<IAddsHandler>(sp => adds);
+
             builder.Services.AddIdentity<VoidUser, IdentityRole>()
                 .AddEntityFrameworkStores<VoidDbContext>()
                 .AddDefaultTokenProviders();

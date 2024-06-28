@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TheVoid.Data;
+using TheVoid.Interfaces;
 using TheVoid.Models;
 using TheVoid.ViewModels;
 
@@ -14,14 +15,17 @@ namespace TheVoid.Controllers
         private readonly VoidDbContext _voidDb;
         private readonly UserManager<VoidUser> _voidUserManager;
         private readonly IConfiguration _configuration;
+        private readonly IAddsHandler _adds;
 
-        private TimeSpan WriteGlobalDelay;
-        private TimeSpan ReadGlobalDelay;
-        public VoidController(VoidDbContext voidDb, UserManager<VoidUser> usermanager, IConfiguration configuration)
+        private readonly TimeSpan WriteGlobalDelay;
+        private readonly TimeSpan ReadGlobalDelay;
+
+        public VoidController(VoidDbContext voidDb, UserManager<VoidUser> usermanager, IConfiguration configuration, IAddsHandler adds)
         {
             _voidDb = voidDb;
             _voidUserManager = usermanager;
             _configuration = configuration;
+            _adds = adds;
 
             WriteGlobalDelay = TimeSpan.FromMinutes(_configuration.GetValue<int>("WriteMinutesInterval"));
             ReadGlobalDelay = TimeSpan.FromMinutes(_configuration.GetValue<int>("ReadMinutesInterval"));
@@ -118,6 +122,12 @@ namespace TheVoid.Controllers
                 return RedirectToAction(nameof(VoidInteractions));
             }
 
+            if(_adds.CanReceieveRandomAdd)
+            {
+                //if(if there are adds loaded)
+                return RedirectToAction(nameof(AddsView));
+            }
+
             if (!_voidDb.VoidMessages.Any())
             {
                 return RedirectToAction(nameof(NoMessagesFound));
@@ -145,6 +155,13 @@ namespace TheVoid.Controllers
         public IActionResult NoMessagesFound()
         {
             return View();
+        }
+
+        public IActionResult AddsView()
+        {
+            //load add and pass it to the view
+            AddsVM addsVM = new AddsVM();
+            return View(addsVM);
         }
 
         public async Task<IActionResult> VoidInteractions()

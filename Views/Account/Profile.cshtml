@@ -1,0 +1,17 @@
+﻿@using TheVoid.ViewModels;
+@model ProfileVM
+
+@{
+    ViewData["Title"] = "Account";
+}
+<div class="d-flex expandFast justify-content-center align-items-center">
+    <div class="card p-3 w-50 bg-dark border-white">
+        
+        <div class="row">
+            <div>
+                <a asp-action="Logout" asp-controller="Account" class="me-2 btn btn-primary btn-sm float-end">Logout</a>
+                <a asp-action="VoidInteractions" asp-controller="Void" class="me-2 btn btn-secondary btn-sm float-end">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
