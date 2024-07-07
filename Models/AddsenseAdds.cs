@@ -1,5 +1,5 @@
-﻿using TheVoid.Interfaces;
-using TheVoid.ViewModels;
+﻿using Microsoft.Extensions.Configuration;
+using TheVoid.Interfaces;
 
 namespace TheVoid.Models
 {
@@ -7,19 +7,20 @@ namespace TheVoid.Models
     {
         public int AddChance { get; set; }
 
-        public bool CanReceieveRandomAdd 
+        public bool CanReceieveRandomAdd
         {
-            get 
+            get
             {
                 int randomNumber = _rnd.Next(0, 100);
                 return randomNumber <= AddChance;
             }
         }
 
-        private Random _rnd = new();
-        public AddsenseAdds(int addChance)
+        private readonly Random _rnd = new();
+
+        public AddsenseAdds(IConfiguration configuration)
         {
-            AddChance = addChance;
+            AddChance = configuration.GetValue<int>("AddChance");
         }
     }
 }

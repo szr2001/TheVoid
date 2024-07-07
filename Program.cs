@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using TheVoid.Data;
 using TheVoid.Interfaces;
 using TheVoid.Models;
+using TheVoid.Models.Items;
 
 namespace TheVoid
 {
@@ -21,8 +22,8 @@ namespace TheVoid
                     //options => options.UseSqlServer(connectionString)
                 );
 
-            AddsenseAdds adds = new(builder.Configuration.GetValue<int>("AddChance"));
-            builder.Services.AddScoped<IAddsHandler>(sp => adds);
+            builder.Services.AddScoped<IAddsHandler, AddsenseAdds>();
+            builder.Services.AddScoped<ItemManager>();
 
             builder.Services.AddIdentity<VoidUser, IdentityRole>()
                 .AddEntityFrameworkStores<VoidDbContext>()
