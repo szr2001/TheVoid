@@ -1,5 +1,4 @@
-﻿using AspNetCore;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TheVoid.Data;
@@ -7,6 +6,7 @@ using TheVoid.Enums;
 using TheVoid.Models;
 using TheVoid.Models.Items.Clases;
 using TheVoid.Models.Items.Functionalities;
+using TheVoid.ViewModels;
 
 namespace TheVoid.Controllers
 {
@@ -32,21 +32,32 @@ namespace TheVoid.Controllers
                 {ItemType.VoidShard, new VoidShard
                     (
                         "Void Shard",
-                        "Lowers the Write/Read to void delay by 5 minutes on use",
-                        "Assets/VoidShardThumb",
+                        "Lowers the Write/Read to void delay by 5 minutes on use.",
+                        "Assets/VoidShardThumb.png",
                         ItemType.VoidShard,
                         new()
                         {
-                            {ItemFunctionalityType.Use, new ShrinkVoidCooldownUseFunct(_voidDb, _voidUserManager) },
+                            {ItemFunctionalityType.Use, new ShrinkVoidCooldownUseFunc(_voidDb, _voidUserManager) },
                             {ItemFunctionalityType.Delete, new DeleteFunc(_voidDb, _voidUserManager) },
+                        }
+                    )},
+                    {ItemType.VoidPermit, new VoidPermit
+                    (
+                        "Void Permit",
+                        "Permit offered by the Void Organization for access to Void Energy, valid until the year 87963.",
+                        "Assets/VoidPermitThumb.png",
+                        ItemType.VoidShard,
+                        new()
+                        {
                         }
                     )}
             };
         }
 
-        public ItemBase Getitem(ItemType type)
+        public IActionResult Inventory()
         {
-            return ItemPrefabs[type];
+            InventoryVM inventoryData = new();
+            return View(inventoryData);
         }
     }
 }

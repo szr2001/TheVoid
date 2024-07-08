@@ -18,6 +18,11 @@ namespace TheVoid.Models.Items.Clases
             IconPath = iconPath;
             Type = type;
             Options = options;
+
+            foreach(var function in Options)
+            {
+                function.Value.Parent = this;
+            }
         }
     }
 }

@@ -24,11 +24,6 @@ namespace TheVoid.Data
                 .HasOne(d => d.User)
                 .WithMany(u => u.Items)
                 .HasForeignKey(d => d.UserId);
-
-            modelBuilder.Entity<StorageItemData>()
-                .HasOne(d => d.User)
-                .WithMany(u => u.StorageItems)
-                .HasForeignKey(d => d.UserId);
         }
     }
 }

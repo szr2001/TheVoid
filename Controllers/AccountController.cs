@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TheVoid.Enums;
 using TheVoid.Models;
+using TheVoid.Models.Items.Clases;
 using TheVoid.ViewModels;
 
 namespace TheVoid.Controllers
@@ -82,6 +84,7 @@ namespace TheVoid.Controllers
                     Xp = 0,
                     Banned = false
                 };
+                user.Items.Add(new ItemData { Type = ItemType.VoidPermit, UserId = user.Id });
 
                 var result = await userManager.CreateAsync(user, registerData.Password!);
 
