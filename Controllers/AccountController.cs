@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TheVoid.Enums;
 using TheVoid.Models;
 using TheVoid.Models.Items.Clases;
@@ -49,13 +50,26 @@ namespace TheVoid.Controllers
                 var result = await signInManager.PasswordSignInAsync(logindata.Email!,logindata.Password!, logindata.RememberMe, false);
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("VoidInteractions", "Void");
+                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+                    var userData = await userManager.FindByIdAsync(userId);
+
+                    if(userData == null)
+                    {
+                        ModelState.AddModelError("", "UserData not found");
+                    }
+                    else
+                    {
+                        userData.LastLogin = DateTime.UtcNow;
+
+                        await userManager.UpdateAsync(userData);
+                        return RedirectToAction("VoidInteractions", "Void");
+                    }
                 }
                 else
                 {
                     Console.WriteLine("Wrong Username or Password");
                     ModelState.AddModelError("", "Wrong Username or Password");
-                    return View(logindata);
                 }
             }
             return View(logindata);
@@ -83,6 +97,8 @@ namespace TheVoid.Controllers
                     LastReadFromVoid = DateTime.MinValue,
                     LastWroteToVoid = DateTime.MinValue,
                     LastPremiumPurchase = DateTime.MinValue,
+                    AccountCreated = DateTime.UtcNow, 
+                    LastLogin = DateTime.UtcNow, 
                     AddedVoidMessages = 0,
                     RetrivedVoidMessages = 0,
                     Level = 1,

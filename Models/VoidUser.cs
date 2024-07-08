@@ -12,6 +12,8 @@ namespace TheVoid.Models
         public DateTime LastWroteToVoid { get; set; }
         public DateTime LastReadFromVoid { get; set; }
         public DateTime LastPremiumPurchase { get; set; }
+        public DateTime AccountCreated { get; set; }
+        public DateTime LastLogin { get; set; }
         public int RetrivedVoidMessages { get; set; }
         public int AddedVoidMessages { get; set; }
         public int Xp { get; set; }

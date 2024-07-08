@@ -7,7 +7,7 @@
 <div class="d-flex expandFast justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
         <div class="d-flex p1 justify-content-center align-items-center">
-        <img width="25%" height="25%" src="../Assets/Images/person.png" />
+        <img class="img-fluid h-25 w-25" src="../Assets/Images/person.png"/>
             <div class="w-75">
                 <h2 class="text-white"><b>@Model.User</b></h2>
                 <label class="text-white"><b>Level: @Model.Level</b></label>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <a asp-action="Inventory" asp-controller="Items" class="me-2 btn w-100 m-1 btn-info btn-sm align-self-center">Inventory</a>
+        <a asp-action="Inventory" asp-controller="Items" class="me-2 btn w-100 m-1 btn-info text-white btn-sm align-self-center fw-bolder">Inventory</a>
         <div class="d-flex justify-content-center m-1">
             <div>
                 <a asp-action="Logout" asp-controller="Account" class="me-2 mt-1 btn btn-primary btn-sm float-end">Logout</a>

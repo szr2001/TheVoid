@@ -35,12 +35,6 @@ namespace TheVoid.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            if (userId == null)
-            {
-                ModelState.AddModelError("", "UserID not found");
-                return RedirectToAction(nameof(VoidInteractions));
-            }
-
             var userData = await _voidUserManager.FindByIdAsync(userId);
 
             if (userData == null)
@@ -49,7 +43,7 @@ namespace TheVoid.Controllers
                 return RedirectToAction(nameof(VoidInteractions));
             }
 
-            if ((DateTime.Now - userData.LastWroteToVoid) < WriteGlobalDelay)
+            if ((DateTime.UtcNow - userData.LastWroteToVoid) < WriteGlobalDelay)
             {
                 return RedirectToAction(nameof(VoidInteractions));
             }
@@ -60,13 +54,9 @@ namespace TheVoid.Controllers
         [HttpPost]
         public async Task<IActionResult> WriteToVoid(VoidMessageVM message)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            //check for message lenght 
 
-            if(userId == null)
-            {
-                ModelState.AddModelError("", "UserID not found");
-                return View(message);
-            }
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
             var userData = await _voidUserManager.FindByIdAsync(userId);
 
@@ -76,12 +66,12 @@ namespace TheVoid.Controllers
                 return View(message);
             }
 
-            if ((DateTime.Now - userData.LastWroteToVoid) < WriteGlobalDelay)
+            if ((DateTime.UtcNow - userData.LastWroteToVoid) < WriteGlobalDelay)
             {
                 return RedirectToAction(nameof(VoidInteractions));
             }
 
-            userData.LastWroteToVoid = DateTime.Now;
+            userData.LastWroteToVoid = DateTime.UtcNow;
             userData.AddedVoidMessages++;
 
             await _voidUserManager.UpdateAsync(userData);
@@ -91,7 +81,7 @@ namespace TheVoid.Controllers
                     new VoidMessage 
                     {
                         Content = message.VoidMessage,
-                        Timestamp = DateTime.Now,
+                        Timestamp = DateTime.UtcNow,
                     }
                 );
 
@@ -104,11 +94,6 @@ namespace TheVoid.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            if (userId == null)
-            {
-                return RedirectToAction(nameof(VoidInteractions));
-            }
-
             var userData = await _voidUserManager.FindByIdAsync(userId);
 
             if (userData == null)
@@ -117,7 +102,7 @@ namespace TheVoid.Controllers
                 return RedirectToAction(nameof(VoidInteractions));
             }
 
-            if ((DateTime.Now - userData.LastReadFromVoid) < ReadGlobalDelay)
+            if ((DateTime.UtcNow - userData.LastReadFromVoid) < ReadGlobalDelay)
             {
                 return RedirectToAction(nameof(VoidInteractions));
             }
@@ -139,7 +124,7 @@ namespace TheVoid.Controllers
 
             await _voidDb.SaveChangesAsync();
 
-            userData.LastReadFromVoid = DateTime.Now;
+            userData.LastReadFromVoid = DateTime.UtcNow;
             userData.RetrivedVoidMessages++;
 
             await _voidUserManager.UpdateAsync(userData);
@@ -167,12 +152,6 @@ namespace TheVoid.Controllers
         public async Task<IActionResult> VoidInteractions()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-            if (userId == null)
-            {
-                ModelState.AddModelError("", "UserID not found");
-                return RedirectToAction("Logout", "Account");
-            }
 
             var userData = await _voidUserManager.FindByIdAsync(userId);
 
@@ -208,7 +187,7 @@ namespace TheVoid.Controllers
 
         private TimeSpan CalculateRemainingTime(DateTime lastInterval, TimeSpan delay)
         {
-            TimeSpan remainingTime = delay - (DateTime.Now - lastInterval);
+            TimeSpan remainingTime = delay - (DateTime.UtcNow - lastInterval);
             return remainingTime > TimeSpan.Zero ? remainingTime : TimeSpan.Zero;
         }
     }

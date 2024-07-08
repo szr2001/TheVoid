@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TheVoid.Data;
 using TheVoid.Enums;
 using TheVoid.Models;
@@ -46,7 +47,7 @@ namespace TheVoid.Controllers
                         "Void Permit",
                         "Permit offered by the Void Organization for access to Void Energy, valid until the year 87963.",
                         "Assets/VoidPermitThumb.png",
-                        ItemType.VoidShard,
+                        ItemType.VoidPermit,
                         new()
                         {
                         }
@@ -54,9 +55,26 @@ namespace TheVoid.Controllers
             };
         }
 
-        public IActionResult Inventory()
+        public async Task<IActionResult> Inventory()
         {
-            InventoryVM inventoryData = new();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if (userData == null)
+            {
+                return RedirectToAction("VoidInteractions","Void");
+            }
+
+            List<ItemData> playerItems = _voidDb.Items.Where(i =>  i.UserId == userData.Id).ToList();
+            List<ItemVM> items = new();
+
+            foreach (var itemdata in playerItems) 
+            {
+                items.Add(new(itemdata.Type, ItemPrefabs[itemdata.Type].Options.Keys.ToArray()));
+            }
+
+            InventoryVM inventoryData = new(items);
             return View(inventoryData);
         }
     }
