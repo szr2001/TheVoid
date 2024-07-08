@@ -33,7 +33,12 @@ namespace TheVoid.Controllers
 
         public IActionResult Profile()
         {
-            return View();
+            ProfileVM profile = new ProfileVM()
+            {
+                User = User.Identity?.Name,
+                Level = 1,
+            };
+            return View(profile);
         }
 
         [HttpPost]

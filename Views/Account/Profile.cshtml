@@ -6,11 +6,22 @@
 }
 <div class="d-flex expandFast justify-content-center align-items-center">
     <div class="card p-3 w-50 bg-dark border-white">
-        
-        <div class="row">
+        <div class="d-flex p1 justify-content-center align-items-center">
+        <img width="25%" height="25%" src="../Assets/Images/person.png" />
+            <div class="w-75">
+                <h2 class="text-white"><b>@Model.User</b></h2>
+                <label class="text-white"><b>Level: @Model.Level</b></label>
+                <div class="progress">
+                    <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">40%</div>
+                    <div class="progress-bar bg-white" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+        <a asp-action="Inventory" asp-controller="Items" class="me-2 btn w-100 m-1 btn-info btn-sm align-self-center">Inventory</a>
+        <div class="d-flex justify-content-center m-1">
             <div>
-                <a asp-action="Logout" asp-controller="Account" class="me-2 btn btn-primary btn-sm float-end">Logout</a>
-                <a asp-action="VoidInteractions" asp-controller="Void" class="me-2 btn btn-secondary btn-sm float-end">Back</a>
+                <a asp-action="Logout" asp-controller="Account" class="me-2 mt-1 btn btn-primary btn-sm float-end">Logout</a>
+                <a asp-action="VoidInteractions" asp-controller="Void" class="me-2 mt-1 btn btn-secondary btn-sm float-end">Back</a>
             </div>
         </div>
     </div>
