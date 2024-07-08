@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using TheVoid.Data;
 using TheVoid.Interfaces;
 using TheVoid.Models;
-using TheVoid.Models.Items;
 
 namespace TheVoid
 {
@@ -23,7 +21,6 @@ namespace TheVoid
                 );
 
             builder.Services.AddScoped<IAddsHandler, AddsenseAdds>();
-            builder.Services.AddScoped<ItemManager>();
 
             builder.Services.AddIdentity<VoidUser, IdentityRole>()
                 .AddEntityFrameworkStores<VoidDbContext>()
