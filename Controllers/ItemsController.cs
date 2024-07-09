@@ -17,7 +17,7 @@ namespace TheVoid.Controllers
         private readonly VoidDbContext _voidDb;
         private readonly UserManager<VoidUser> _voidUserManager;
 
-        private Dictionary<ItemType, ItemBase> ItemPrefabs = new();
+        private Dictionary<ItemType, ItemBase> ItemPrefabs = [];
 
         public ItemsController(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager)
         {
@@ -66,12 +66,12 @@ namespace TheVoid.Controllers
                 return RedirectToAction("VoidInteractions","Void");
             }
 
-            List<ItemData> playerItems = _voidDb.Items.Where(i =>  i.UserId == userData.Id).ToList();
+            List<ItemData> playerItems = _voidDb.Items.Where(i => i.UserId == userData.Id).ToList();
             List<ItemVM> items = new();
 
             foreach (var itemdata in playerItems) 
             {
-                items.Add(new(itemdata.Type, ItemPrefabs[itemdata.Type].Options.Keys.ToArray()));
+                items.Add(new(itemdata.Type, ItemPrefabs[itemdata.Type].IconPath));
             }
 
             InventoryVM inventoryData = new(items);

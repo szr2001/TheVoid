@@ -5,12 +5,12 @@ namespace TheVoid.ViewModels
     public class ItemVM
     {
         public ItemType Type { get; set; }
-        public ItemFunctionalityType[]? Options { get; set; }
-
-        public ItemVM(ItemType type, ItemFunctionalityType[]? options)
+        public string? ThumbPath { get; set; }
+        
+        public ItemVM(ItemType type, string? thumbPath)
         {
             Type = type;
-            Options = options;
+            ThumbPath = thumbPath;
         }
     }
 }
