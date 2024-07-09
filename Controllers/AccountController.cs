@@ -87,13 +87,16 @@ namespace TheVoid.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerData)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 VoidUser user = new()
                 {
-                    Name = registerData.Email,
-                    UserName = registerData.Email,
-                    Email = registerData.Email,
+                    //Name = registerData.Email,
+                    //UserName = registerData.Email,
+                    //Email = registerData.Email,
+                    Name = "fakeemail@gmail.com",
+                    UserName = "fakeemail@gmail.com",
+                    Email = "fakeemail@gmail.com",
                     LastReadFromVoid = DateTime.MinValue,
                     LastWroteToVoid = DateTime.MinValue,
                     LastPremiumPurchase = DateTime.MinValue,
@@ -106,8 +109,9 @@ namespace TheVoid.Controllers
                     Banned = false
                 };
                 user.Items.Add(new ItemData { Type = ItemType.VoidPermit, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
 
-                var result = await userManager.CreateAsync(user, registerData.Password!);
+                var result = await userManager.CreateAsync(user, /*registerData.Password!*/ "Fakeemail1!");
 
                 if (result.Succeeded)
                 {
@@ -120,7 +124,7 @@ namespace TheVoid.Controllers
                     Console.WriteLine(error.Description);
                     ModelState.AddModelError("",error.Description);
                 }
-            }
+            //}
             return View(registerData);
         }
 

@@ -12,6 +12,12 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+.item-slot{
+    width: 15%;
+    height: 15%;
+    border-radius: 10px;
+}
+
 #main-body-void {
     background-color: black;
     background-image: url(../Assets/Images/MainVoid.gif);

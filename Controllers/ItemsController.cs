@@ -34,7 +34,7 @@ namespace TheVoid.Controllers
                     (
                         "Void Shard",
                         "Lowers the Write/Read to void delay by 5 minutes on use.",
-                        "Assets/VoidShardThumb.png",
+                        "../Assets/Images/ItemIcons/VoidShard.png",
                         ItemType.VoidShard,
                         new()
                         {
@@ -46,7 +46,7 @@ namespace TheVoid.Controllers
                     (
                         "Void Permit",
                         "Permit offered by the Void Organization for access to Void Energy, valid until the year 87963.",
-                        "Assets/VoidPermitThumb.png",
+                        "../Assets/Images/ItemIcons/VoidPermit.png",
                         ItemType.VoidPermit,
                         new()
                         {
