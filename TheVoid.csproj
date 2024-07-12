@@ -36,6 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\Assets\Images\ItemIcons\VoidPermit.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Assets\Sounds\backgroundNoise.mp3">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>

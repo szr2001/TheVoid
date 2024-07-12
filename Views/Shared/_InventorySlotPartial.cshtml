@@ -1,6 +1,51 @@
 ﻿@using TheVoid.ViewModels
 @model ItemVM
 
-<div class="card m-1 item-slot bg-body border-white">
-    <img class="align-content-center img-fluid" src="@Model.ThumbPath" />
+@{
+    int slotId = (int)ViewData["slotid"];
+    string holderId = $"Holder_{slotId}";
+    string iconId = $"Icon_{slotId}";
+}
+
+<div id="@holderId" class="card bg-body border-secondary">
+    <img id="@iconId" class="align-content-center m-1 img-fluid" src="@Model.ThumbPath" />
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var holderId = "@holderId";
+        var iconId = "@iconId";
+
+        var itemHolder = document.getElementById(holderId);
+        var itemIcon = document.getElementById(iconId);
+
+        function iconMouseEnter() {
+            itemIcon.classList.remove("HoverExit");
+            itemIcon.classList.add("HoverEnter");
+        }
+
+        function iconMouseLeave() {
+            itemIcon.classList.remove("HoverEnter");
+            itemIcon.classList.add("HoverExit");
+        }
+
+        function holderMouseEnter(){
+            itemHolder.classList.remove("border-secondary");
+            itemHolder.classList.add("border-white");
+        }
+
+        function holderMouseExit() {
+            itemHolder.classList.remove("border-white");
+            itemHolder.classList.add("border-secondary");
+        }
+
+        if (itemIcon) {
+            itemIcon.addEventListener('mouseenter', iconMouseEnter);
+            itemIcon.addEventListener('mouseleave', iconMouseLeave);
+        }
+        if(itemHolder){
+            itemHolder.addEventListener('mouseenter', holderMouseEnter);
+            itemHolder.addEventListener('mouseleave', holderMouseExit);
+        }
+    });
+</script>

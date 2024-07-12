@@ -4,21 +4,44 @@
 @{
     ViewData["Title"] = "Inventory";
 }
-<div class="d-flex justify-content-center align-items-center">
-    <div class="flex-column p-1 w-50">
+<div class="d-flex expandFast justify-content-center align-items-center">
+    <div class="p-1 w-75">
+        <div class="d-flex flex-row">
 
-        <div class="m-1 justify-content-center align-items-center">
-            <div class="card p-1 bg-dark border-white">
+            <div class="m-1 justify-content-center align-items-center">
+                <div class="card p-1 bg-dark border-white">
+                </div>
             </div>
-        </div>
 
-        <div class="m-1 container justify-content-center align-items-center">
-            <div class="card p-1 flex-row bg-dark border-white">
-                @foreach (var item in Model.Items)
-                {
-                    @await Html.PartialAsync("_InventorySlotPartial", item)
-                }
+            <div class="m-1 container justify-content-center align-items-center">
+                <div class="card p-1 flex-row bg-dark border-white">
+                    <div class="container Inventory m-1 justify-content-center align-items-center">
+                        @{
+                            int rows = 6;
+                            var items = Model.Items.ToList();
+                            int rowCount = (int)Math.Ceiling((double)items.Count / rows);
+                            for (int i = 0; i < rowCount; i++)
+                            {
+                                <div class="row">
+                                    @for (int j = 0; j < rows; j++)
+                                    {
+                                        <div class="col p-1">
+                                            @{
+                                                int slotIndex = i * rows + j;
+                                                if (slotIndex < items.Count)
+                                                {
+                                                    @await Html.PartialAsync("_InventorySlotPartial", items[slotIndex], new ViewDataDictionary(ViewData) { { "slotid", slotIndex } })
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
+        
         </div>
     </div>
 </div>

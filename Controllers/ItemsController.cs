@@ -36,6 +36,7 @@ namespace TheVoid.Controllers
                         "Lowers the Write/Read to void delay by 5 minutes on use.",
                         "../Assets/Images/ItemIcons/VoidShard.png",
                         ItemType.VoidShard,
+                        ItemRarity.Common,
                         new()
                         {
                             {ItemFunctionalityType.Use, new ShrinkVoidCooldownUseFunc(_voidDb, _voidUserManager) },
@@ -48,6 +49,7 @@ namespace TheVoid.Controllers
                         "Permit offered by the Void Organization for access to Void Energy, valid until the year 87963.",
                         "../Assets/Images/ItemIcons/VoidPermit.png",
                         ItemType.VoidPermit,
+                        ItemRarity.Common,
                         new()
                         {
                         }

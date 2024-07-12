@@ -5,7 +5,7 @@ namespace TheVoid.Models.Items.Clases
 {
     public class VoidPermit : ItemBase
     {
-        public VoidPermit(string name, string description, string? iconPath, ItemType type, Dictionary<ItemFunctionalityType, FunctionalityBase> options) : base(name, description, iconPath, type, options)
+        public VoidPermit(string name, string description, string? iconPath, ItemType type, ItemRarity rarity, Dictionary<ItemFunctionalityType, FunctionalityBase> options) : base(name, description, iconPath, type, options, rarity)
         {
         }
     }

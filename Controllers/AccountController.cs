@@ -110,6 +110,17 @@ namespace TheVoid.Controllers
                 };
                 user.Items.Add(new ItemData { Type = ItemType.VoidPermit, UserId = user.Id });
                 user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
+                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
 
                 var result = await userManager.CreateAsync(user, /*registerData.Password!*/ "Fakeemail1!");
 
