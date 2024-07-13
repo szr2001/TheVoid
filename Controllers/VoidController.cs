@@ -39,8 +39,7 @@ namespace TheVoid.Controllers
 
             if (userData == null)
             {
-                ModelState.AddModelError("", "UserData not found");
-                return RedirectToAction(nameof(VoidInteractions));
+                return RedirectToAction("Logout", "Account");
             }
 
             if ((DateTime.UtcNow - userData.LastWroteToVoid) < WriteGlobalDelay)
@@ -62,8 +61,7 @@ namespace TheVoid.Controllers
 
             if (userData == null)
             {
-                ModelState.AddModelError("", "UserData not found");
-                return View(message);
+                return RedirectToAction("Logout", "Account");
             }
 
             if ((DateTime.UtcNow - userData.LastWroteToVoid) < WriteGlobalDelay)
@@ -98,8 +96,7 @@ namespace TheVoid.Controllers
 
             if (userData == null)
             {
-                ModelState.AddModelError("", "UserData not found");
-                return RedirectToAction(nameof(VoidInteractions));
+                return RedirectToAction("Logout", "Account");
             }
 
             if ((DateTime.UtcNow - userData.LastReadFromVoid) < ReadGlobalDelay)
@@ -157,7 +154,6 @@ namespace TheVoid.Controllers
 
             if (userData == null)
             {
-                ModelState.AddModelError("", "UserData not found");
                 return RedirectToAction("Logout", "Account");
             }
             

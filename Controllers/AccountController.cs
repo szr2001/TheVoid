@@ -56,7 +56,7 @@ namespace TheVoid.Controllers
 
                     if(userData == null)
                     {
-                        ModelState.AddModelError("", "UserData not found");
+                        return RedirectToAction("Logout", "Account");
                     }
                     else
                     {

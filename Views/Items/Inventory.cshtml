@@ -7,35 +7,50 @@
 <div class="d-flex expandFast justify-content-center align-items-center">
     <div class="p-1 w-75">
         <div class="d-flex flex-row">
-
-            <div class="m-1 justify-content-center align-items-center">
-                <div class="card p-1 bg-dark border-white">
+            @if(Model.SelectedItem != null)
+            {
+                <div class="justify-content-center w-50 align-items-center">
+                    <div class="card p-1 d-flex align-items-center bg-dark border-white">
+                        <img class="align-content-center m-1 w-25 h-25 img-fluid" src="@Model.SelectedItem.IconPath" />
+                        <h3 class="text-white align-content-center">@Model.SelectedItem.Name</h3>
+                        <label class="text-primary align-content-center">@Model.SelectedItem.Rarity.ToString()</label>
+                        <h8 class="text-white align-content-center">@Model.SelectedItem.Description</h8>
+                        <div class="flex-row">
+                            @foreach(var option in Model.SelectedItem.Options)
+                            {
+                                <button class="btn btn-secondary"> @option.ToString() </button>
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
 
-            <div class="m-1 container justify-content-center align-items-center">
+            <div class="justify-content-center align-items-center">
                 <div class="card p-1 flex-row bg-dark border-white">
                     <div class="container Inventory m-1 justify-content-center align-items-center">
                         @{
-                            int rows = 6;
-                            var items = Model.Items.ToList();
-                            int rowCount = (int)Math.Ceiling((double)items.Count / rows);
-                            for (int i = 0; i < rowCount; i++)
+                            if(Model.Items != null)
                             {
-                                <div class="row">
-                                    @for (int j = 0; j < rows; j++)
-                                    {
-                                        <div class="col p-1">
-                                            @{
-                                                int slotIndex = i * rows + j;
-                                                if (slotIndex < items.Count)
-                                                {
-                                                    @await Html.PartialAsync("_InventorySlotPartial", items[slotIndex], new ViewDataDictionary(ViewData) { { "slotid", slotIndex } })
+                                int rows = 6;
+                                var items = Model.Items.ToList();
+                                int rowCount = (int)Math.Ceiling((double)items.Count / rows);
+                                for (int i = 0; i < rowCount; i++)
+                                {
+                                    <div class="row">
+                                        @for (int j = 0; j < rows; j++)
+                                        {
+                                            <div class="col p-1">
+                                                @{
+                                                    int slotIndex = i * rows + j;
+                                                    if (slotIndex < items.Count)
+                                                    {
+                                                        @await Html.PartialAsync("_InventorySlotPartial", items[slotIndex], new ViewDataDictionary(ViewData) { { "slotid", slotIndex }, {"invid", Model} })
+                                                    }
                                                 }
-                                            }
-                                        </div>
-                                    }
-                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
                             }
                         }
                     </div>

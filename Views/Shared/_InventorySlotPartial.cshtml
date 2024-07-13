@@ -2,22 +2,29 @@
 @model ItemVM
 
 @{
-    int slotId = (int)ViewData["slotid"];
+    int slotId = (int)ViewData["slotid"]!;
     string holderId = $"Holder_{slotId}";
     string iconId = $"Icon_{slotId}";
+    string formId = $"form_{slotId}";
 }
 
 <div id="@holderId" class="card bg-body border-secondary">
     <img id="@iconId" class="align-content-center m-1 img-fluid" src="@Model.ThumbPath" />
 </div>
 
+<form id="@formId" method="post" asp-action="Inventory" asp-controller="Items" style="display: none;">
+    <input type="hidden" name="type" value="@Model.Type"/>
+</form>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var holderId = "@holderId";
         var iconId = "@iconId";
+        var formId = "@formId";
 
         var itemHolder = document.getElementById(holderId);
         var itemIcon = document.getElementById(iconId);
+        var itemform = document.getElementById(formId);
 
         function iconMouseEnter() {
             itemIcon.classList.remove("HoverExit");
@@ -39,6 +46,10 @@
             itemHolder.classList.add("border-secondary");
         }
 
+        function selectItem() {
+            itemform.submit();
+        }
+
         if (itemIcon) {
             itemIcon.addEventListener('mouseenter', iconMouseEnter);
             itemIcon.addEventListener('mouseleave', iconMouseLeave);
@@ -46,6 +57,7 @@
         if(itemHolder){
             itemHolder.addEventListener('mouseenter', holderMouseEnter);
             itemHolder.addEventListener('mouseleave', holderMouseExit);
+            itemHolder.addEventListener('click', selectItem);
         }
     });
 </script>

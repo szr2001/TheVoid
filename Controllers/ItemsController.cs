@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using TheVoid.Data;
 using TheVoid.Enums;
@@ -65,7 +66,7 @@ namespace TheVoid.Controllers
 
             if (userData == null)
             {
-                return RedirectToAction("VoidInteractions","Void");
+                return RedirectToAction("Logout", "Account");
             }
 
             List<ItemData> playerItems = _voidDb.Items.Where(i => i.UserId == userData.Id).ToList();
@@ -78,6 +79,57 @@ namespace TheVoid.Controllers
 
             InventoryVM inventoryData = new(items);
             return View(inventoryData);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Inventory(ItemType type)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if (userData == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
+            ItemData selectedItemData = _voidDb.Items.Where(i => i.UserId == userData.Id).Where(i => i.Type == type).First();
+            if(selectedItemData == null)
+            {
+                return RedirectToAction("Profile", "Account");
+            }
+            ItemBase itemprefab = ItemPrefabs[type];
+
+            ItemDataVM selecteditem = new(itemprefab.Type, itemprefab.Name, itemprefab.Description, itemprefab.IconPath, itemprefab.Rarity ,itemprefab.Options.Keys.ToArray());
+
+            List<ItemData> playerItems = _voidDb.Items.Where(i => i.UserId == userData.Id).ToList();
+            List<ItemVM> items = new();
+
+            foreach (var itemdata in playerItems)
+            {
+                items.Add(new(itemdata.Type, ItemPrefabs[itemdata.Type].IconPath));
+            }
+
+            InventoryVM inventoryData = new(items);
+            inventoryData.SelectedItem = selecteditem;
+
+            return View(inventoryData);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TriggerItemOption(ItemType itemtype, ItemFunctionalityType functype)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if (userData == null)
+            {
+                return RedirectToAction("VoidInteractions", "Void");
+            }
+
+
+            return RedirectToAction(nameof(Inventory));
         }
     }
 }
