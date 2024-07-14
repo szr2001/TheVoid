@@ -9,7 +9,7 @@
         <div class="d-flex flex-row">
             @if(Model.SelectedItem != null)
             {
-                <div class="justify-content-center w-50 align-items-center">
+                <div class="justify-content-center min-width-200 w-50 align-items-center">
                     <div class="card p-1 d-flex align-items-center bg-dark border-white">
                         <img class="align-content-center m-1 w-25 h-25 img-fluid" src="@Model.SelectedItem.IconPath" />
                         <h3 class="text-white align-content-center">@Model.SelectedItem.Name</h3>
@@ -27,7 +27,7 @@
 
             <div class="justify-content-center align-items-center">
                 <div class="card p-1 flex-row bg-dark border-white">
-                    <div class="container Inventory m-1 justify-content-center align-items-center">
+                    <div class="container max-height-500 min-height-222 overflow-auto m-1 justify-content-center align-items-center">
                         @{
                             if(Model.Items != null)
                             {
