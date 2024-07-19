@@ -128,9 +128,11 @@ namespace TheVoid.Controllers
             {
                 return RedirectToAction("VoidInteractions", "Void");
             }
-            ItemData? specifiedItem = _voidDb.Items.Where(i => i.UserId == userData.Id).Where(i => i.Type == item).FirstOrDefault();
+
             //pass the itemID from the db to users and check for specific ID and type to have a better
-            //acuracy on deleting a specific item instead of a item type for items that might have specific data asigned to it
+            //acuracy on using a specific item instead of a item type for items that might have specific data asigned to it
+            ItemData? specifiedItem = userData.Items.Where(i => i.Type == item).FirstOrDefault();
+            
             if (specifiedItem != null)
             {
                 Console.WriteLine($"Option '{option}' Triggered in '{item}'");

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using TheVoid.Data;
 using TheVoid.Enums;
 using TheVoid.Models;
 using TheVoid.Models.Items.Clases;
@@ -12,10 +13,12 @@ namespace TheVoid.Controllers
     {
         private readonly SignInManager<VoidUser> signInManager;
         private readonly UserManager<VoidUser> userManager;
-        public AccountController(SignInManager<VoidUser> signinmanager, UserManager<VoidUser> usermanager)
+        private readonly VoidDbContext voidDb;
+        public AccountController(SignInManager<VoidUser> signinmanager, UserManager<VoidUser> usermanager, VoidDbContext voiddb = null)
         {
             signInManager = signinmanager;
             userManager = usermanager;
+            voidDb = voiddb;
         }
 
         public IActionResult Login()
@@ -113,13 +116,10 @@ namespace TheVoid.Controllers
 
                 if (result.Succeeded)
                 {
-                    var existingUser = await userManager.FindByEmailAsync(user.Email);
-                    if (existingUser == null) return RedirectToAction(nameof(Logout));
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidPermit, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
 
-                    existingUser.Items.Add(new ItemData { Type = ItemType.VoidPermit, UserId = existingUser.Id });
-                    existingUser.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = existingUser.Id });
-
-                    await userManager.UpdateAsync(existingUser);
+                    await voidDb.SaveChangesAsync();
 
                     await signInManager.SignInAsync(user, false);
 
