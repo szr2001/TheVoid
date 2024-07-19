@@ -19,6 +19,7 @@ namespace TheVoid.Models
         public int Xp { get; set; }
         public int Level { get; set; }
         public bool Banned { get; set; }
+        //Items don't get linked to the user correctly.
         public List<ItemData> Items { get; set; } = new();
     }
 }

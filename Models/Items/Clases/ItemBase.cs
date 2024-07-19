@@ -10,9 +10,9 @@ namespace TheVoid.Models.Items.Clases
         public string IconPath { get; set; }
         public ItemType Type { get; set; }
         public ItemRarity Rarity { get; set; }
-        public Dictionary<ItemFunctionalityType, FunctionalityBase> Options { get; set; } = new();
+        public Dictionary<ItemOptionType, ItemOptionBase> Options { get; set; } = new();
 
-        public ItemBase(string name, string description, string iconPath, ItemType type, Dictionary<ItemFunctionalityType, FunctionalityBase> options, ItemRarity rarity)
+        public ItemBase(string name, string description, string iconPath, ItemType type, Dictionary<ItemOptionType, ItemOptionBase> options, ItemRarity rarity)
         {
             Name = name;
             Description = description;

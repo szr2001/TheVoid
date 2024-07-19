@@ -1,6 +1,6 @@
 ﻿namespace TheVoid.Enums
 {
-    public enum ItemFunctionalityType
+    public enum ItemOptionType
     {
         Delete,
         Use,

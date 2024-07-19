@@ -1,6 +1,6 @@
 ﻿using TheVoid.Enums;
 
-namespace TheVoid.ViewModels
+namespace TheVoid.ViewModels.Items
 {
     public class ItemDataVM
     {
@@ -9,9 +9,9 @@ namespace TheVoid.ViewModels
         public string Description { get; set; }
         public string IconPath { get; set; }
         public ItemRarity Rarity { get; set; }
-        public ItemFunctionalityType[] Options { get; set; }
+        public ItemOptionType[] Options { get; set; }
 
-        public ItemDataVM(ItemType type, string name, string description, string iconPath, ItemRarity rarity, ItemFunctionalityType[] options)
+        public ItemDataVM(ItemType type, string name, string description, string iconPath, ItemRarity rarity, ItemOptionType[] options)
         {
             Type = type;
             Name = name;

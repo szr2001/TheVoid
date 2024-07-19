@@ -1,4 +1,4 @@
-﻿@using TheVoid.ViewModels;
+﻿@using TheVoid.ViewModels.Items;
 @model InventoryVM
 
 @{
@@ -15,10 +15,10 @@
                         <h3 class="text-white align-content-center">@Model.SelectedItem.Name</h3>
                         <label class="text-primary align-content-center">@Model.SelectedItem.Rarity.ToString()</label>
                         <h8 class="text-white align-content-center">@Model.SelectedItem.Description</h8>
-                        <div class="flex-row">
+                        <div class="d-flex flex-row">
                             @foreach(var option in Model.SelectedItem.Options)
                             {
-                                <button class="btn btn-secondary"> @option.ToString() </button>
+                                @await Html.PartialAsync("_ItemOptionBtnPartial", new ItemOptionVM() { Option = option, Type = Model.SelectedItem.Type });
                             }
                         </div>
                     </div>

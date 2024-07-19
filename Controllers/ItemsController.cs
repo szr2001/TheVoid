@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using TheVoid.Data;
@@ -8,7 +9,7 @@ using TheVoid.Enums;
 using TheVoid.Models;
 using TheVoid.Models.Items.Clases;
 using TheVoid.Models.Items.Functionalities;
-using TheVoid.ViewModels;
+using TheVoid.ViewModels.Items;
 
 namespace TheVoid.Controllers
 {
@@ -40,8 +41,8 @@ namespace TheVoid.Controllers
                         ItemRarity.Common,
                         new()
                         {
-                            {ItemFunctionalityType.Use, new ShrinkVoidCooldownUseFunc(_voidDb, _voidUserManager) },
-                            {ItemFunctionalityType.Delete, new DeleteFunc(_voidDb, _voidUserManager) },
+                            {ItemOptionType.Use, new ShrinkVoidCooldownUseOption(_voidDb, _voidUserManager) },
+                            {ItemOptionType.Delete, new DeleteOption(_voidDb, _voidUserManager) },
                         }
                     )},
                     {ItemType.VoidPermit, new VoidPermit
@@ -93,7 +94,7 @@ namespace TheVoid.Controllers
                 return RedirectToAction("Logout", "Account");
             }
 
-            ItemData selectedItemData = _voidDb.Items.Where(i => i.UserId == userData.Id).Where(i => i.Type == type).First();
+            ItemData? selectedItemData = await _voidDb.Items.Where(i => i.UserId == userData.Id).Where(i => i.Type == type).FirstOrDefaultAsync();
             if(selectedItemData == null)
             {
                 return RedirectToAction("Profile", "Account");
@@ -117,7 +118,7 @@ namespace TheVoid.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TriggerItemOption(ItemType itemtype, ItemFunctionalityType functype)
+        public async Task<IActionResult> TriggerItemOption(ItemType item, ItemOptionType option)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
@@ -127,7 +128,13 @@ namespace TheVoid.Controllers
             {
                 return RedirectToAction("VoidInteractions", "Void");
             }
-
+            ItemData? specifiedItem = _voidDb.Items.Where(i => i.UserId == userData.Id).Where(i => i.Type == item).FirstOrDefault();
+            //pass the itemID from the db to users and check for specific ID and type to have a better
+            //acuracy on deleting a specific item instead of a item type for items that might have specific data asigned to it
+            if (specifiedItem != null)
+            {
+                Console.WriteLine($"Option '{option}' Triggered in '{item}'");
+            }
 
             return RedirectToAction(nameof(Inventory));
         }

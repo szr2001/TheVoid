@@ -1,6 +1,6 @@
 ﻿using TheVoid.Enums;
 
-namespace TheVoid.ViewModels
+namespace TheVoid.ViewModels.Items
 {
     public class InventoryVM
     {

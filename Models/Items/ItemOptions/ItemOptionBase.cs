@@ -3,10 +3,10 @@ using TheVoid.Models.Items.Clases;
 
 namespace TheVoid.Models.Items.Functionalities
 {
-    public abstract class FunctionalityBase
+    public abstract class ItemOptionBase
     {
         public ItemBase? Parent { get; set; }
-        public ItemFunctionalityType Type { get; set; }
+        public ItemOptionType Type { get; set; }
 
         public abstract void ExecuteFunctionality();
     }

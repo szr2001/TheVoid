@@ -108,34 +108,29 @@ namespace TheVoid.Controllers
                     Xp = 0,
                     Banned = false
                 };
-                user.Items.Add(new ItemData { Type = ItemType.VoidPermit, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
-                user.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = user.Id });
 
                 var result = await userManager.CreateAsync(user, /*registerData.Password!*/ "Fakeemail1!");
 
                 if (result.Succeeded)
                 {
+                    var existingUser = await userManager.FindByEmailAsync(user.Email);
+                    if (existingUser == null) return RedirectToAction(nameof(Logout));
+
+                    existingUser.Items.Add(new ItemData { Type = ItemType.VoidPermit, UserId = existingUser.Id });
+                    existingUser.Items.Add(new ItemData { Type = ItemType.VoidShard, UserId = existingUser.Id });
+
+                    await userManager.UpdateAsync(existingUser);
+
                     await signInManager.SignInAsync(user, false);
+
                     return RedirectToAction("VoidInteractions", "Void");
                 }
 
                 foreach(var error in result.Errors)
                 {
-                    Console.WriteLine(error.Description);
                     ModelState.AddModelError("",error.Description);
                 }
-            //}
+        //}
             return View(registerData);
         }
 

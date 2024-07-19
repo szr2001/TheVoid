@@ -1,5 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using TheVoid.ViewModels.Items
+@model ItemOptionVM
+
+<form asp-action="TriggerItemOption" asp-controller="Items" method="post">
+    <input type="hidden" name="option" value="@Model.Option" />
+    <input type="hidden" name="item" value="@Model.Type" />
+    <button class="m-1 btn btn-secondary" type="submit">@Model.Option.ToString()</button>
+</form>
