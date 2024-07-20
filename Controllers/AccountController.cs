@@ -14,7 +14,7 @@ namespace TheVoid.Controllers
         private readonly SignInManager<VoidUser> signInManager;
         private readonly UserManager<VoidUser> userManager;
         private readonly VoidDbContext voidDb;
-        public AccountController(SignInManager<VoidUser> signinmanager, UserManager<VoidUser> usermanager, VoidDbContext voiddb = null)
+        public AccountController(SignInManager<VoidUser> signinmanager, UserManager<VoidUser> usermanager, VoidDbContext voiddb)
         {
             signInManager = signinmanager;
             userManager = usermanager;
@@ -117,6 +117,8 @@ namespace TheVoid.Controllers
                 if (result.Succeeded)
                 {
                     voidDb.Items.Add(new ItemData { Type = ItemType.VoidPermit, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
                     voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
 
                     await voidDb.SaveChangesAsync();

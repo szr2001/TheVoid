@@ -1,24 +1,28 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using TheVoid.Data;
-using TheVoid.Models.Items.Clases;
+using TheVoid.Enums;
 
 namespace TheVoid.Models.Items.Functionalities
 {
     public class ShrinkVoidCooldownUseOption : ItemOptionBase
     {
-        private readonly VoidDbContext _voidDb;
-        private readonly UserManager<VoidUser> _voidUserManager;
-
-        public ShrinkVoidCooldownUseOption(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager)
+        public ShrinkVoidCooldownUseOption(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager) : base(voidDb,voidUserManager)
         {
-            _voidDb = voidDb;
-            _voidUserManager = voidUserManager;
         }
 
-        public override void ExecuteFunctionality()
+        public override async Task ExecuteFunctionality(ClaimsPrincipal User)
         {
-            throw new NotImplementedException();
-        }
+            var OwningData = await TryGetItemOwiningData(User, Parent!.Type);
 
+            if (OwningData.Item1 != null)
+            {
+                OwningData.Item2!.LastReadFromVoid = DateTime.MinValue;
+                OwningData.Item2!.LastWroteToVoid = DateTime.MinValue;
+                await _voidUserManager.UpdateAsync(OwningData.Item2);
+                ItemOptionBase? delete = Parent.Options[ItemOptionType.Delete];
+                delete?.ExecuteFunctionality(User);
+            }
+        }
     }
 }

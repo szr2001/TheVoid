@@ -129,13 +129,12 @@ namespace TheVoid.Controllers
                 return RedirectToAction("VoidInteractions", "Void");
             }
 
-            //pass the itemID from the db to users and check for specific ID and type to have a better
-            //acuracy on using a specific item instead of a item type for items that might have specific data asigned to it
-            ItemData? specifiedItem = userData.Items.Where(i => i.Type == item).FirstOrDefault();
+            ItemData? specifiedItem = _voidDb.Items.Where(i => i.User == userData && i.Type == item).FirstOrDefault();
             
             if (specifiedItem != null)
             {
-                Console.WriteLine($"Option '{option}' Triggered in '{item}'");
+                Console.WriteLine($"Option '{option}' Triggered for item '{item}' in invetory of user with email {userData.Email}");
+                await ItemPrefabs[item].Options[option].ExecuteFunctionality(User);
             }
 
             return RedirectToAction(nameof(Inventory));
