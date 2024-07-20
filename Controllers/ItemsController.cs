@@ -18,13 +18,13 @@ namespace TheVoid.Controllers
     {
         private readonly VoidDbContext _voidDb;
         private readonly UserManager<VoidUser> _voidUserManager;
-        private readonly ItemsHandler _itemHandler;
+        private readonly ItemsHandler _itemsHandler;
 
-        public ItemsController(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager, ItemsHandler itemHandler)
+        public ItemsController(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager, ItemsHandler itemsHandler)
         {
             _voidDb = voidDb;
             _voidUserManager = voidUserManager;
-            _itemHandler = itemHandler;
+            _itemsHandler = itemsHandler;
         }
 
         public async Task<IActionResult> Inventory()
@@ -43,7 +43,7 @@ namespace TheVoid.Controllers
 
             foreach (var itemdata in playerItems) 
             {
-                items.Add(new(itemdata.Type, _itemHandler.ItemPrefabs[itemdata.Type].IconPath));
+                items.Add(new(itemdata.Type, _itemsHandler.ItemPrefabs[itemdata.Type].IconPath));
             }
 
             InventoryVM inventoryData = new(items);
@@ -67,7 +67,7 @@ namespace TheVoid.Controllers
             {
                 return RedirectToAction("Profile", "Account");
             }
-            ItemBase itemprefab = _itemHandler.ItemPrefabs[type];
+            ItemBase itemprefab = _itemsHandler.ItemPrefabs[type];
 
             ItemDataVM selecteditem = new(itemprefab.Type, itemprefab.Name, itemprefab.Description, itemprefab.IconPath, itemprefab.Rarity ,itemprefab.Options.Keys.ToArray());
 
@@ -76,7 +76,7 @@ namespace TheVoid.Controllers
 
             foreach (var itemdata in playerItems)
             {
-                items.Add(new(itemdata.Type, _itemHandler.ItemPrefabs[itemdata.Type].IconPath));
+                items.Add(new(itemdata.Type, _itemsHandler.ItemPrefabs[itemdata.Type].IconPath));
             }
 
             InventoryVM inventoryData = new(items);
@@ -102,7 +102,7 @@ namespace TheVoid.Controllers
             if (specifiedItem != null)
             {
                 Console.WriteLine($"Option '{option}' Triggered for item '{item}' in invetory of user with email {userData.Email}");
-                await _itemHandler.ExecuteItemOption(User, item, option);
+                await _itemsHandler.ExecuteItemOption(User, item, option);
             }
 
             return RedirectToAction(nameof(Inventory));

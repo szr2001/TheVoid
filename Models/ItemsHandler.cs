@@ -54,10 +54,17 @@ namespace TheVoid.Models
 
         public async Task ExecuteItemOption(ClaimsPrincipal User, ItemType item, ItemOptionType option)
         {
-            await ItemPrefabs[item].Options[option].ExecuteFunctionality(User);
+            if (!ItemPrefabs.ContainsKey(item)) return;
+            if (!ItemPrefabs[item].Options.TryGetValue(option, out ItemOptionBase? Option)) return;
+
+            await Option.ExecuteFunctionality(User);
         }
 
-        public async Task TriggerRandomDrop()
+        public async Task TriggerRandomItemDrop()
+        {
+        }
+
+        public async Task TriggerItemDrop(ItemType type)
         {
         }
     }
