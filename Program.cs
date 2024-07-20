@@ -20,7 +20,9 @@ namespace TheVoid
                     //options => options.UseSqlServer(connectionString)
                 );
 
-            builder.Services.AddScoped<IAddsHandler, AddsenseAdds>();
+            builder.Services.AddScoped<IAdsHandler, AdsenseAds>();
+
+            builder.Services.AddScoped<ItemsHandler>();
 
             builder.Services.AddIdentity<VoidUser, IdentityRole>()
                 .AddEntityFrameworkStores<VoidDbContext>()

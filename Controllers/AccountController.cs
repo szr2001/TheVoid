@@ -120,6 +120,10 @@ namespace TheVoid.Controllers
                     voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
                     voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
                     voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
+                    voidDb.Items.Add(new ItemData { Type = ItemType.VoidShard, User = user });
 
                     await voidDb.SaveChangesAsync();
 

@@ -18,45 +18,13 @@ namespace TheVoid.Controllers
     {
         private readonly VoidDbContext _voidDb;
         private readonly UserManager<VoidUser> _voidUserManager;
+        private readonly ItemsHandler _itemHandler;
 
-        private Dictionary<ItemType, ItemBase> ItemPrefabs = [];
-
-        public ItemsController(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager)
+        public ItemsController(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager, ItemsHandler itemHandler)
         {
             _voidDb = voidDb;
             _voidUserManager = voidUserManager;
-            GenerateItemPrefabs();
-        }
-
-        private void GenerateItemPrefabs()
-        {
-            ItemPrefabs = new()
-            {
-                {ItemType.VoidShard, new VoidShard
-                    (
-                        "Void Shard",
-                        "Lowers the Write/Read to void delay by 5 minutes on use.",
-                        "../Assets/Images/ItemIcons/VoidShard.png",
-                        ItemType.VoidShard,
-                        ItemRarity.Common,
-                        new()
-                        {
-                            {ItemOptionType.Use, new ShrinkVoidCooldownUseOption(_voidDb, _voidUserManager) },
-                            {ItemOptionType.Delete, new DeleteOption(_voidDb, _voidUserManager) },
-                        }
-                    )},
-                    {ItemType.VoidPermit, new VoidPermit
-                    (
-                        "Void Permit",
-                        "Permit offered by the Void Organization for access to Void Energy, valid until the year 87963.",
-                        "../Assets/Images/ItemIcons/VoidPermit.png",
-                        ItemType.VoidPermit,
-                        ItemRarity.Common,
-                        new()
-                        {
-                        }
-                    )}
-            };
+            _itemHandler = itemHandler;
         }
 
         public async Task<IActionResult> Inventory()
@@ -75,7 +43,7 @@ namespace TheVoid.Controllers
 
             foreach (var itemdata in playerItems) 
             {
-                items.Add(new(itemdata.Type, ItemPrefabs[itemdata.Type].IconPath));
+                items.Add(new(itemdata.Type, _itemHandler.ItemPrefabs[itemdata.Type].IconPath));
             }
 
             InventoryVM inventoryData = new(items);
@@ -99,7 +67,7 @@ namespace TheVoid.Controllers
             {
                 return RedirectToAction("Profile", "Account");
             }
-            ItemBase itemprefab = ItemPrefabs[type];
+            ItemBase itemprefab = _itemHandler.ItemPrefabs[type];
 
             ItemDataVM selecteditem = new(itemprefab.Type, itemprefab.Name, itemprefab.Description, itemprefab.IconPath, itemprefab.Rarity ,itemprefab.Options.Keys.ToArray());
 
@@ -108,7 +76,7 @@ namespace TheVoid.Controllers
 
             foreach (var itemdata in playerItems)
             {
-                items.Add(new(itemdata.Type, ItemPrefabs[itemdata.Type].IconPath));
+                items.Add(new(itemdata.Type, _itemHandler.ItemPrefabs[itemdata.Type].IconPath));
             }
 
             InventoryVM inventoryData = new(items);
@@ -134,7 +102,7 @@ namespace TheVoid.Controllers
             if (specifiedItem != null)
             {
                 Console.WriteLine($"Option '{option}' Triggered for item '{item}' in invetory of user with email {userData.Email}");
-                await ItemPrefabs[item].Options[option].ExecuteFunctionality(User);
+                await _itemHandler.ExecuteItemOption(User, item, option);
             }
 
             return RedirectToAction(nameof(Inventory));

@@ -15,12 +15,12 @@ namespace TheVoid.Controllers
         private readonly VoidDbContext _voidDb;
         private readonly UserManager<VoidUser> _voidUserManager;
         private readonly IConfiguration _configuration;
-        private readonly IAddsHandler _adds;
+        private readonly IAdsHandler _adds;
 
         private readonly TimeSpan WriteGlobalDelay;
         private readonly TimeSpan ReadGlobalDelay;
 
-        public VoidController(VoidDbContext voidDb, UserManager<VoidUser> usermanager, IConfiguration configuration, IAddsHandler adds)
+        public VoidController(VoidDbContext voidDb, UserManager<VoidUser> usermanager, IConfiguration configuration, IAdsHandler adds)
         {
             _voidDb = voidDb;
             _voidUserManager = usermanager;
@@ -104,7 +104,7 @@ namespace TheVoid.Controllers
                 return RedirectToAction(nameof(VoidInteractions));
             }
 
-            if(_adds.CanReceieveRandomAdd)
+            if(_adds.CanReceieveRandomAd)
             {
                 //if(if there are adds loaded)
                 return RedirectToAction(nameof(AddsView));
