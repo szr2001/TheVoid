@@ -5,12 +5,12 @@
     ViewData["Title"] = "Inventory";
 }
 <div class="d-flex expandFast justify-content-center align-items-center">
-    <div class="p-1 align-center w-75">
+    <div class="p-1 align-center w-75 bg-dark card border-white">
         <div class="d-flex flex-row">
             @if(Model.SelectedItem != null)
             {
                 <div class="justify-content-center min-width-200 w-50 align-items-center">
-                    <div class="card p-1 d-flex align-items-center bg-dark border-white">
+                    <div class="card bg-dark p-1 d-flex align-items-center">
                         <img class="align-content-center m-1 w-25 h-25 img-fluid" src="@Model.SelectedItem.IconPath" />
                         <h3 class="text-white align-content-center">@Model.SelectedItem.Name</h3>
                         <label class="text-primary align-content-center">@Model.SelectedItem.Rarity.ToString()</label>
@@ -26,8 +26,8 @@
             }
 
             <div class="justify-content-center align-items-center">
-                <div class="card p-1 flex-row bg-dark border-white">
-                    <div class="container max-height-500 min-height-222 overflow-auto m-1 justify-content-center align-items-center">
+                <div class="p-1 flex-row">
+                    <div class="container overflow-auto m-1 justify-content-center align-items-center">
                         @{
                             if(Model.Items != null)
                             {
