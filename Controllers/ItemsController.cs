@@ -27,6 +27,12 @@ namespace TheVoid.Controllers
             _itemsHandler = itemsHandler;
         }
 
+        public async Task<IActionResult> ItemDrop()
+        {
+            ItemType droppedItem = await _itemsHandler.TriggerRandomItemDrop(User);
+            return View();
+        }
+
         public async Task<IActionResult> Inventory()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;

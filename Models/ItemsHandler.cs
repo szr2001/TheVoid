@@ -9,15 +9,31 @@ namespace TheVoid.Models
 {
     public class ItemsHandler
     {
+        public Dictionary<ItemType, ItemBase> ItemPrefabs = [];
+        
         private readonly VoidDbContext _voidDb;
         private readonly UserManager<VoidUser> _voidUserManager;
-
-        public Dictionary<ItemType, ItemBase> ItemPrefabs = [];
-
-        public ItemsHandler(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager)
+        
+        private IConfiguration _configuration;
+        private readonly Dictionary<ItemRarity, int> ItemDropPercentages;
+        private Random rnd = new();
+        public ItemsHandler(VoidDbContext voidDb, UserManager<VoidUser> voidUserManager, IConfiguration configuration)
         {
+            _configuration = configuration;
             _voidDb = voidDb;
             _voidUserManager = voidUserManager;
+            
+            ItemDropPercentages = new Dictionary<ItemRarity, int>
+            {
+                { ItemRarity.None, int.Parse(_configuration["ItemDropsPercentage:None"]!) },
+                { ItemRarity.Common, int.Parse(_configuration["ItemDropsPercentage:Common"]!) },
+                { ItemRarity.Uncommon, int.Parse(_configuration["ItemDropsPercentage:Uncommon"]!) },
+                { ItemRarity.Rare, int.Parse(_configuration["ItemDropsPercentage:Rare"]!) },
+                { ItemRarity.Epic, int.Parse(_configuration["ItemDropsPercentage:Epic"]!) },
+                { ItemRarity.Legendary, int.Parse(_configuration["ItemDropsPercentage:Legendary"]!) },
+                { ItemRarity.Mythic, int.Parse(_configuration["ItemDropsPercentage:Mythic"]!) }
+            };
+            
             GenerateItemPrefabs();
         }
 
@@ -44,7 +60,7 @@ namespace TheVoid.Models
                         "Permit offered by the Void Organization for access to Void Energy, valid until the year 87963.",
                         "../Assets/Images/ItemIcons/VoidPermit.png",
                         ItemType.VoidPermit,
-                        ItemRarity.Common,
+                        ItemRarity.None,
                         new()
                         {
                         }
@@ -60,12 +76,21 @@ namespace TheVoid.Models
             await Option.ExecuteFunctionality(User);
         }
 
-        public async Task TriggerRandomItemDrop()
+        public async Task<ItemType> TriggerRandomItemDrop(ClaimsPrincipal User)
         {
-        }
+            int Percentage = rnd.Next(1, 100);
+            ItemRarity selectedRarity = ItemDropPercentages.Where(i => i.Value !< Percentage && i.Value !> Percentage).First().Key;
 
-        public async Task TriggerItemDrop(ItemType type)
-        {
+            var Filtereditems = ItemPrefabs.Where(i => i.Value.Rarity == selectedRarity).ToArray();
+
+            ItemType SelectedItem = ItemType.VoidShard;
+
+            if(Filtereditems.Length == 0)
+            {
+
+            }
+            
+            return SelectedItem;
         }
     }
 }

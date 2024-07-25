@@ -2,6 +2,7 @@
 {
     public enum ItemRarity
     {
+        None,
         Common,
         Uncommon,
         Rare,

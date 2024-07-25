@@ -20,7 +20,7 @@ namespace TheVoid.Models
 
         public AdsenseAds(IConfiguration configuration)
         {
-            AdChance = configuration.GetValue<int>("AddChance");
+            AdChance = configuration.GetValue<int>("AdChance");
         }
     }
 }

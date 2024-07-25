@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Items\ItemDrop.cshtml" />
     <Content Remove="wwwroot\Assets\Images\TheVoid1.png" />
     <Content Remove="wwwroot\Assets\Images\TheVoid2.png" />
   </ItemGroup>
@@ -31,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Items\ItemDrop.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Void\NoMessagesFound.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Void\WelcomeToVoid.cshtml" />
   </ItemGroup>
@@ -52,8 +54,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Items\ItemDrop.cshtml" />
     <None Include="wwwroot\Assets\Images\TheVoid1.png" />
     <None Include="wwwroot\Assets\Images\TheVoid2.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Items\ItemDrop.cshtml" />
   </ItemGroup>
 
 </Project>
