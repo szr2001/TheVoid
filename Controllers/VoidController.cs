@@ -107,7 +107,7 @@ namespace TheVoid.Controllers
             if(_adds.CanReceieveRandomAd)
             {
                 //if(if there are adds loaded)
-                return RedirectToAction(nameof(AddsView));
+                return RedirectToAction(nameof(AdsView));
             }
 
             if (!_voidDb.VoidMessages.Any())
@@ -139,10 +139,10 @@ namespace TheVoid.Controllers
             return View();
         }
 
-        public IActionResult AddsView()
+        public IActionResult AdsView()
         {
             //load add and pass it to the view
-            AddsVM addsVM = new AddsVM();
+            AdsVM addsVM = new AdsVM();
             return View(addsVM);
         }
 
