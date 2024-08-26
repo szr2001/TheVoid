@@ -2,7 +2,8 @@
 {
     public enum ItemType
     {
+        None,
         VoidShard,
-        VoidPermit
+        VoidPermit,
     }
 }

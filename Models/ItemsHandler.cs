@@ -78,6 +78,15 @@ namespace TheVoid.Models
 
         public async Task<ItemType> TriggerRandomItemDrop(ClaimsPrincipal User)
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            var userData = await _voidUserManager.FindByIdAsync(userId);
+
+            if(userData == null)
+            {
+                return ItemType.None;
+            }
+
             int Percentage = rnd.Next(1, 100);
             ItemRarity selectedRarity = ItemDropPercentages.Where(i => i.Value !< Percentage && i.Value !> Percentage).First().Key;
 
@@ -85,11 +94,16 @@ namespace TheVoid.Models
 
             ItemType SelectedItem = ItemType.VoidShard;
 
-            if(Filtereditems.Length == 0)
+            if(Filtereditems.Length > 0)
             {
-
+                SelectedItem = Filtereditems[rnd.Next(0, Filtereditems.Length)].Key;
             }
-            
+            Console.WriteLine($"item dropped {selectedRarity} {SelectedItem}");
+
+            _voidDb.Items.Add(new ItemData { Type = ItemType.VoidPermit, User = userData });
+
+            await _voidDb.SaveChangesAsync();
+
             return SelectedItem;
         }
     }

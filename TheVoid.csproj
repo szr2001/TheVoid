@@ -55,8 +55,6 @@
 
   <ItemGroup>
     <None Include="Views\Items\ItemDrop.cshtml" />
-    <None Include="wwwroot\Assets\Images\TheVoid1.png" />
-    <None Include="wwwroot\Assets\Images\TheVoid2.png" />
   </ItemGroup>
 
   <ItemGroup>
